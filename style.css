@@ -23,18 +23,17 @@
       }
 
 a {
-  color: #0077cc; /* 设置链接的默认颜色 */
-  text-decoration: none; /* 取消链接的下划线 */
+  color: #337ab7;
+  text-decoration: none;
 }
 
-a:hover,
-a:focus {
-  color: #ff6600; /* 鼠标悬停或键盘聚焦时设置链接的颜色 */
-  text-decoration: underline; /* 添加链接的下划线 */
+a:hover {
+  color: #23527c;
+  text-decoration: underline;
 }
 
 a:visited {
-  color: #a64dff; /* 已访问链接的颜色 */
+  color: #9f69c1;
 }
 
       /* 设置页面主体样式 */
