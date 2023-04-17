@@ -22,6 +22,21 @@
         z-index: 9999;
       }
 
+a {
+  color: #0077cc; /* 设置链接的默认颜色 */
+  text-decoration: none; /* 取消链接的下划线 */
+}
+
+a:hover,
+a:focus {
+  color: #ff6600; /* 鼠标悬停或键盘聚焦时设置链接的颜色 */
+  text-decoration: underline; /* 添加链接的下划线 */
+}
+
+a:visited {
+  color: #a64dff; /* 已访问链接的颜色 */
+}
+
       /* 设置页面主体样式 */
       #content {
         margin-top: 80px;
