@@ -40,5 +40,15 @@ fetch('https://hiwd.com/footer.html')
   .then(response => response.text())
   .then(data => document.body.insertAdjacentHTML('beforeend', data));
 </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const logo = document.getElementById('logo');
+  if (logo) {
+    logo.addEventListener('touchstart', function(event) {
+      event.preventDefault(); /* 阻止默认触摸行为 */
+    }, { passive: false });
+  }
+});
+</script>
   </body>
 </html>
