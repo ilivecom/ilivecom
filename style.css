@@ -108,7 +108,7 @@ img {
 /* iOS 设备样式 */
 @media only screen and (max-width: 767px) {
   #logo {
-    position: relative;
+    position: relative;  /* 改为 relative 定位 */
     top: 10px;
     left: 10px;
     width: 50px;
@@ -125,7 +125,15 @@ img {
     border: none !important;
     box-shadow: none !important;
     background-color: transparent !important;
-    touch-action: manipulation; /* 防止默认触摸操作，如缩放 */
+    touch-action: none; /* 禁用触摸行为 */
+  }
+
+  a {
+    touch-action: none; /* 禁用链接的默认触摸行为 */
+  }
+
+  body {
+    overflow: hidden; /* 禁用页面滚动条，查看是否影响 */
   }
 }
 
