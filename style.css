@@ -22,6 +22,17 @@ body {
   z-index: 9999;
 }
 
+#logo, #logo a {
+  -webkit-tap-highlight-color: transparent; /* 禁用 iOS 上的触摸高亮 */
+  -webkit-touch-callout: none; /* 禁用长按弹出菜单 */
+}
+
+#logo a {
+  border: none; /* 确保没有边框 */
+  outline: none; /* 确保没有聚焦轮廓 */
+  text-decoration: none; /* 确保没有下划线 */
+}
+
 /* 设置页面主体样式 */
 #content {
   margin-top: 80px;
