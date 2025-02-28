@@ -7,7 +7,7 @@
   </head>
   <body>
     <!-- 在页面中添加logo链接 -->
-    <a href="https://imdw.net/">
+    <a href="https://hiwd.com/">
       <div id="logo"></div>
     </a>
 
@@ -113,8 +113,10 @@
     </div>
 
     <!-- 在页面底部添加版权信息 -->
-    <div id="footer">
-  © 2023 <a href="http://imdw.net/">Andrew</a> All rights reserved. | <a href="http://imdw.net/andrew.html">About me</a>
-    </div>
+    <script>
+fetch('https://hiwd.com/footer.html')
+  .then(response => response.text())
+  .then(data => document.body.insertAdjacentHTML('beforeend', data));
+</script>
   </body>
 </html>
