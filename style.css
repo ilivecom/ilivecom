@@ -125,6 +125,7 @@ img {
     border: none !important;
     box-shadow: none !important;
     background-color: transparent !important;
+    touch-action: manipulation; /* 防止默认触摸操作，如缩放 */
   }
 }
 
