@@ -7,13 +7,9 @@
   </head>
   <body>
     <!-- 在页面中添加logo链接 -->
-    //<a href="https://hiwd.com/">
+    <a href="https://hiwd.com/">
       <div id="logo"></div>
     </a>
-
-    <a href="https://hiwd.com/">
-  <img id="logo" src="img/andrew.jpg" alt="Logo" style="width: 50px; height: 50px;">
-</a>
 
     <!-- 在页面中添加主体内容 -->
     <div id="content">
@@ -39,16 +35,6 @@
 fetch('https://hiwd.com/footer.html')
   .then(response => response.text())
   .then(data => document.body.insertAdjacentHTML('beforeend', data));
-</script>
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const logo = document.getElementById('logo');
-  if (logo) {
-    logo.addEventListener('touchstart', function(event) {
-      event.preventDefault(); /* 阻止默认触摸行为 */
-    }, { passive: false });
-  }
-});
 </script>
   </body>
 </html>
