@@ -22,20 +22,6 @@ body {
   z-index: 9999;
 }
 
-#logo, #logo a {
-  -webkit-tap-highlight-color: transparent; /* 禁用 iOS 上的触摸高亮 */
-  -webkit-touch-callout: none; /* 禁用长按弹出菜单 */
-  -webkit-user-select: none; /* 禁用文本选择 */
-  -webkit-appearance: none; /* 移除默认外观 */
-  outline: none !important; /* 确保没有轮廓 */
-  border: none !important; /* 确保没有边框 */
-  box-shadow: none !important; /* 确保没有阴影 */
-}
-
-#logo a {
-  text-decoration: none; /* 确保没有下划线 */
-}
-
 /* 设置页面主体样式 */
 #content {
   margin-top: 80px;
@@ -92,7 +78,7 @@ img {
   text-align: center;
   margin-top: 30px;
   padding: 10px;
-  background-color: #f5f5f5;
+  background-color: #eee;
   font-size: 12px;
 }
 
@@ -106,13 +92,8 @@ img {
 }
 
 /* iOS 设备样式 */
-/* 在iOS设备上尝试禁用所有交互 */
-@media only screen and (max-width: 767px) {
-  a {
-    touch-action: none;
-    overflow: hidden;
-  }
-  
+@media only screen and (max-width: 767px) and (min-device-width: 320px) and (-webkit-min-device-pixel-ratio: 2) {
+  /* 修复 iOS Safari 上的问题 */
   #logo {
     position: relative;
     top: 10px;
@@ -122,11 +103,10 @@ img {
     background-image: url('img/andrew.jpg');
     background-size: cover;
     border-radius: 50%;
-    box-shadow: none !important;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
     z-index: 9999;
-    background-color: transparent !important;
+    -webkit-transform: translate3d(0, 0, 0);
   }
-}
 
   #content {
     -webkit-overflow-scrolling: touch;
@@ -135,64 +115,55 @@ img {
     margin-right: 10px;
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-  }
-
-  h1 {
-    font-size: 28px;
-    color: #333;
-    margin-top: 0;
-    margin-bottom: 20px;
-  }
-
-  h2 {
-    font-size: 22px;
-    color: #333;
-    margin-top: 30px;
-  }
-
-  p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.5;
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
-
-  a {
-    color: #0073bb;
-    text-decoration: none;
-  }
-
-  a:hover {
-    color: #004f80;
-    text-decoration: none;
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-    margin-top: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  }
-
-  #footer {
-    text-align: center;
-    margin-top: 30px;
-    padding: 10px;
-    background-color: #f5f5f5;
-    font-size: 12px;
-    color: #666;
-  }
-
-  #footer a {
-    color: #666;
-    text-decoration: none;
-  }
-
-  #footer a:hover {
-    color: #333;
-  }
+    box-shadow: 0px 2px 4px rgba(0, 0, 0,0.25);
+border-radius: 10px;
+}
+h1 {
+font-size: 28px;
+color: #333;
+margin-top: 0;
+margin-bottom: 20px;
+}
+h2 {
+font-size: 22px;
+color: #333;
+margin-top: 30px;
+}
+p {
+font-size: 16px;
+color: #555;
+line-height: 1.5;
+margin-top: 10px;
+margin-bottom: 20px;
+}
+a {
+color: #0073bb;
+text-decoration: none;
+}
+a:hover {
+color: #004f80;
+text-decoration: none;
+}
+img {
+max-width: 100%;
+height: auto;
+margin-top: 30px;
+border-radius: 10px;
+box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+#footer {
+text-align: center;
+margin-top: 30px;
+padding: 10px;
+background-color: #eee;
+font-size: 12px;
+color: #666;
+}
+#footer a {
+color: #666;
+text-decoration: none;
+}
+#footer a:hover {
+color: #333;
+}
 }
