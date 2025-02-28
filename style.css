@@ -108,7 +108,7 @@ img {
 /* iOS 设备样式 */
 @media only screen and (max-width: 767px) {
   #logo {
-    position: relative;  /* 改为 relative 定位 */
+    position: relative;
     top: 10px;
     left: 10px;
     width: 50px;
@@ -133,9 +133,10 @@ img {
   }
 
   body {
-    overflow: hidden; /* 禁用页面滚动条，查看是否影响 */
+    overflow: hidden; /* 禁用页面滚动条 */
   }
 }
+
 
   #content {
     -webkit-overflow-scrolling: touch;
