@@ -125,18 +125,8 @@ img {
     border: none !important;
     box-shadow: none !important;
     background-color: transparent !important;
-    touch-action: none; /* 禁用触摸行为 */
-  }
-
-  a {
-    touch-action: none; /* 禁用链接的默认触摸行为 */
-  }
-
-  body {
-    overflow: hidden; /* 禁用页面滚动条 */
   }
 }
-
 
   #content {
     -webkit-overflow-scrolling: touch;
