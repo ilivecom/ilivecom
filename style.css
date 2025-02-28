@@ -23,13 +23,13 @@ body {
 }
 
 #logo, #logo a {
-  -webkit-tap-highlight-color: transparent !important; /* 禁用触摸高亮 */
-  -webkit-touch-callout: none !important; /* 禁用长按菜单 */
-  -webkit-user-select: none !important; /* 禁用选择 */
-  outline: none !important; /* 无轮廓 */
-  border: none !important; /* 无边框 */
-  box-shadow: none !important; /* 无阴影 */
-  background-color: transparent !important; /* 透明背景 */
+  -webkit-tap-highlight-color: transparent; /* 禁用 iOS 上的触摸高亮 */
+  -webkit-touch-callout: none; /* 禁用长按弹出菜单 */
+  -webkit-user-select: none; /* 禁用文本选择 */
+  -webkit-appearance: none; /* 移除默认外观 */
+  outline: none !important; /* 确保没有轮廓 */
+  border: none !important; /* 确保没有边框 */
+  box-shadow: none !important; /* 确保没有阴影 */
 }
 
 #logo a {
@@ -106,7 +106,8 @@ img {
 }
 
 /* iOS 设备样式 */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 767px) and (min-device-width: 320px) and (-webkit-min-device-pixel-ratio: 2) {
+  /* 修复 iOS Safari 上的问题 */
   #logo {
     position: relative;
     top: 10px;
@@ -118,15 +119,15 @@ img {
     border-radius: 50%;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
     z-index: 9999;
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    outline: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    background-color: transparent !important;
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-tap-highlight-color: transparent; /* 禁用触摸高亮 */
+    -webkit-touch-callout: none; /* 禁用长按弹出菜单 */
+    -webkit-user-select: none; /* 禁用文本选择 */
+    -webkit-appearance: none; /* 移除默认外观 */
+    outline: none !important; /* 确保没有轮廓 */
+    border: none !important; /* 确保没有边框 */
+    box-shadow: none !important; /* 确保没有阴影 */
   }
-}
 
   #content {
     -webkit-overflow-scrolling: touch;
