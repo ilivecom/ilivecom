@@ -1,6 +1,6 @@
-/* style.css - Universal Design Version */
+/* style.css - 2025 Final Complete Version */
 
-/* --- 1. 全局设置 (Global) --- */
+/* --- 1. 全局设置 --- */
 body {
   margin: 0;
   padding: 0;
@@ -9,12 +9,11 @@ body {
   background-color: #f5f5f5;
   color: #333;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- 2. Logo 样式 --- */
+/* --- 2. Logo 样式 (PC端默认固定) --- */
 #logo {
-  position: fixed; /* 电脑端保持悬浮 */
+  position: fixed; /* 电脑端悬浮 */
   top: 10px;
   left: 10px;
   z-index: 9999;
@@ -24,15 +23,14 @@ body {
   background-image: url('img/andrew.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  border-radius: 0;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  /* 消除点击阴影 */
   outline: none;
   border: none;
   -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
 }
 
-/* --- 3. 主体容器 --- */
+/* --- 3. 内容容器 --- */
 #content {
   margin-top: 80px;
   margin-left: auto;
@@ -44,45 +42,33 @@ body {
   border-radius: 10px;
 }
 
-/* --- 4. 标题样式 (🔴 重点修改：全局添加蓝色竖条) --- */
+/* --- 4. 标题样式 (带蓝条装饰) --- */
 h1, h2 {
   position: relative;
-  padding-left: 15px; /* 给左边留出蓝条的空间 */
+  padding-left: 15px;
   font-weight: bold;
   line-height: 1.2;
   color: #333;
 }
 
-/* 统一的蓝条装饰 */
 h1::before, h2::before {
   content: "";
   position: absolute;
   left: 0;
   top: 50%;
-  transform: translateY(-50%); /* 垂直居中 */
-  width: 4px;      /* 竖线宽度 */
-  background-color: #0073bb; /* 标志性蓝色 */
+  transform: translateY(-50%);
+  width: 4px;
+  background-color: #0073bb;
   border-radius: 2px;
 }
 
-/* 针对不同标题调整蓝条高度和字体大小 */
-h1 {
-  font-size: 32px;
-  margin-top: 0;
-}
-h1::before {
-  height: 26px; /* H1 的条稍微高一点 */
-}
+h1 { font-size: 32px; margin-top: 0; }
+h1::before { height: 26px; }
 
-h2 {
-  font-size: 24px;
-  margin-top: 30px;
-}
-h2::before {
-  height: 20px; /* H2 的条稍微矮一点 */
-}
+h2 { font-size: 24px; margin-top: 30px; }
+h2::before { height: 20px; }
 
-/* --- 5. 正文段落 --- */
+/* --- 5. 正文与链接 --- */
 p {
   line-height: 1.6;
   margin-top: 10px;
@@ -90,12 +76,11 @@ p {
   color: #555;
 }
 
-/* --- 6. 链接交互 --- */
 a {
   color: #0073bb;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
-  transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  transition: opacity 0.2s;
 }
 
 a:hover {
@@ -103,7 +88,7 @@ a:hover {
   opacity: 0.8;
 }
 
-/* --- 7. 图片样式 --- */
+/* --- 6. 图片 --- */
 img {
   max-width: 100%;
   height: auto;
@@ -112,7 +97,7 @@ img {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* --- 8. 底部版权 --- */
+/* --- 7. 底部版权 --- */
 #footer {
   text-align: center;
   margin-top: 30px;
@@ -123,30 +108,64 @@ img {
   animation: fadeIn 0.8s ease-in;
 }
 
-#footer a {
-  color: #666;
-}
-#footer a:hover {
-  color: #333;
-}
+#footer a { color: #666; }
+#footer a:hover { color: #333; }
 
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* --- 9. Sitemap 列表卡片样式 (全局生效) --- */
-.article-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* --- 8. Sitemap 列表卡片样式 (这就是丢失的那段代码！) --- */
+.article-list { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
 }
 
-.article-list li {
-  border-bottom: 1px solid #eee;
-}
-.article-list li:last-child {
-  border-bottom: none;
+.article-list li { 
+  border-bottom: 1px solid #eee; 
 }
 
-.article-
+.article-list li:last-child { 
+  border-bottom: none; 
+}
+
+.article-list a {
+  display: block;        /* 关键：变成块级元素，撑开空间 */
+  padding: 16px 5px;     /* 关键：增加上下间距，不再紧凑 */
+  font-size: 18px;
+  color: #333;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.article-list a:hover {
+  background-color: #fafafa;
+  color: #0073bb;
+  padding-left: 10px;
+}
+
+/* --- 9. 移动端适配 --- */
+@media (max-width: 767px) {
+  
+  #logo {
+    /* 📱 手机端：绝对定位，不随屏幕滚动 */
+    position: absolute !important; 
+    top: 15px; 
+    left: 15px;
+    z-index: 9999;
+  }
+
+  #content {
+    margin-top: 80px; 
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 20px 15px;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  h1 { font-size: 26px; margin-bottom: 15px; }
+  h2 { font-size: 22px; }
+  p { font-size: 16px; }
+}
