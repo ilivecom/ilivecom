@@ -1,4 +1,4 @@
-/* style.css - 2025 Final Complete Version */
+/* style.css - 2025 Final Fixed Version */
 
 /* --- 1. 全局设置 --- */
 body {
@@ -11,9 +11,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- 2. Logo 样式 (PC端默认固定) --- */
+/* --- 2. Logo 样式 (PC端默认：悬浮固定) --- */
 #logo {
-  position: fixed; /* 电脑端悬浮 */
+  position: fixed; /* 电脑上悬浮，方便点击 */
   top: 10px;
   left: 10px;
   z-index: 9999;
@@ -42,7 +42,7 @@ body {
   border-radius: 10px;
 }
 
-/* --- 4. 标题样式 (带蓝条装饰) --- */
+/* --- 4. 标题样式 (全局蓝色竖条装饰) --- */
 h1, h2 {
   position: relative;
   padding-left: 15px;
@@ -51,6 +51,7 @@ h1, h2 {
   color: #333;
 }
 
+/* 统一的蓝条 */
 h1::before, h2::before {
   content: "";
   position: absolute;
@@ -107,58 +108,53 @@ img {
   color: #666;
   animation: fadeIn 0.8s ease-in;
 }
-
 #footer a { color: #666; }
 #footer a:hover { color: #333; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* --- 8. Sitemap 列表卡片样式 (这就是丢失的那段代码！) --- */
+/* --- 8. Sitemap 列表样式 (找回丢失的卡片样式) --- */
 .article-list { 
   list-style: none; 
   padding: 0; 
   margin: 0; 
 }
-
 .article-list li { 
   border-bottom: 1px solid #eee; 
 }
-
 .article-list li:last-child { 
   border-bottom: none; 
 }
-
 .article-list a {
-  display: block;        /* 关键：变成块级元素，撑开空间 */
-  padding: 16px 5px;     /* 关键：增加上下间距，不再紧凑 */
+  display: block;        /* 让链接占满整行 */
+  padding: 16px 5px;     /* 增加间距，变得宽松 */
   font-size: 18px;
   color: #333;
   font-weight: 500;
   text-decoration: none;
 }
-
 .article-list a:hover {
   background-color: #fafafa;
   color: #0073bb;
   padding-left: 10px;
 }
 
-/* --- 9. 移动端适配 --- */
+/* --- 9. 移动端适配 (核心修复) --- */
+/* 使用最通用的写法，确保 iPhone 16 Pro 能识别 */
 @media (max-width: 767px) {
   
   #logo {
-    /* 📱 手机端：绝对定位，不随屏幕滚动 */
+    /* 🔴 关键：改为绝对定位 */
+    /* 这样它会留在页面顶部，当你往下滑动时，它会随页面滚走，不再挡视线 */
     position: absolute !important; 
     top: 15px; 
     left: 15px;
-    z-index: 9999;
   }
 
   #content {
-    margin-top: 80px; 
+    /* 🔴 关键：增加顶部间距 */
+    /* 90px 足够让正文避开 Logo，解决“贴在一起”的问题 */
+    margin-top: 90px; 
+    
     margin-left: 10px;
     margin-right: 10px;
     padding: 20px 15px;
