@@ -1,46 +1,38 @@
-/* style.css - 2025 Final Optimized Version */
+/* style.css - Universal Design Version */
 
 /* --- 1. 全局设置 (Global) --- */
 body {
   margin: 0;
   padding: 0;
-  /* 保持系统字体栈，这很现代 */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   font-size: 16px;
   background-color: #f5f5f5;
-  
-  color: #111; 
-
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- 2. Logo 样式 (核心修复) --- */
+/* --- 2. Logo 样式 --- */
 #logo {
-  /* 布局与层级 */
-  position: fixed;
+  position: fixed; /* 电脑端保持悬浮 */
   top: 10px;
   left: 10px;
   z-index: 9999;
-  
-  /* 尺寸与背景 */
-  display: block; /* 关键：确保它是块级元素 */
+  display: block;
   width: 50px;
   height: 50px;
   background-image: url('img/andrew.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  
-  /* 视觉装饰 */
-  border-radius: 0; /* 保持原设计的直角 */
+  border-radius: 0;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  
-  /* --- 关键修复：消除点击时的“丑陋横条”和高亮色块 --- */
   outline: none;
   border: none;
-  -webkit-tap-highlight-color: transparent; /* 针对 iOS/Android 去除高亮 */
+  -webkit-tap-highlight-color: transparent;
   cursor: pointer;
 }
 
-/* --- 3. 主体容器 (Content) --- */
+/* --- 3. 主体容器 --- */
 #content {
   margin-top: 80px;
   margin-left: auto;
@@ -52,36 +44,57 @@ body {
   border-radius: 10px;
 }
 
-/* --- 4. 排版样式 (Typography) --- */
-h1 {
-  font-size: 32px;
+/* --- 4. 标题样式 (🔴 重点修改：全局添加蓝色竖条) --- */
+h1, h2 {
+  position: relative;
+  padding-left: 15px; /* 给左边留出蓝条的空间 */
   font-weight: bold;
-  margin-top: 0;
   line-height: 1.2;
   color: #333;
+}
+
+/* 统一的蓝条装饰 */
+h1::before, h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%); /* 垂直居中 */
+  width: 4px;      /* 竖线宽度 */
+  background-color: #0073bb; /* 标志性蓝色 */
+  border-radius: 2px;
+}
+
+/* 针对不同标题调整蓝条高度和字体大小 */
+h1 {
+  font-size: 32px;
+  margin-top: 0;
+}
+h1::before {
+  height: 26px; /* H1 的条稍微高一点 */
 }
 
 h2 {
   font-size: 24px;
-  font-weight: bold;
   margin-top: 30px;
-  line-height: 1.2;
-  color: #333;
+}
+h2::before {
+  height: 20px; /* H2 的条稍微矮一点 */
 }
 
+/* --- 5. 正文段落 --- */
 p {
-  line-height: 1.6; /* 稍微增加行高，阅读更舒适 */
+  line-height: 1.6;
   margin-top: 10px;
   margin-bottom: 20px;
-  color: #555; /* 稍微柔和一点的黑色 */
+  color: #555;
 }
 
-/* --- 5. 链接交互 (Links) --- */
+/* --- 6. 链接交互 --- */
 a {
   color: #0073bb;
   text-decoration: none;
-  -webkit-tap-highlight-color: transparent; /* 去除所有链接点击时的背景灰块 */
-  /* 添加过渡动画，鼠标移上去有“呼吸感” */
+  -webkit-tap-highlight-color: transparent;
   transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
 
@@ -90,16 +103,16 @@ a:hover {
   opacity: 0.8;
 }
 
-/* --- 6. 图片样式 (Images) --- */
+/* --- 7. 图片样式 --- */
 img {
   max-width: 100%;
   height: auto;
   margin-top: 30px;
-  border-radius: 10px; /* 统一圆角，增加精致感 */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 加一点轻微阴影，更有层次 */
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* --- 7. 底部版权 (Footer) --- */
+/* --- 8. 底部版权 --- */
 #footer {
   text-align: center;
   margin-top: 30px;
@@ -107,66 +120,22 @@ img {
   background-color: #f5f5f5;
   font-size: 12px;
   color: #666;
-  /* 淡入动画，防止 JS 加载内容时产生的视觉闪烁 */
   animation: fadeIn 0.8s ease-in;
 }
 
 #footer a {
   color: #666;
 }
-
 #footer a:hover {
   color: #333;
 }
 
-/* 定义淡入动画关键帧 */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* --- 8. 移动端适配 (Mobile) --- */
-@media (max-width: 767px) {
-  
-  #logo {
-    /* 🔴 核心修复：从 fixed 改为 absolute */
-    /* 这样 Logo 就会乖乖待在页面最顶端，不会随着手指滑动“跟屁虫”一样粘在屏幕上了 */
-    position: absolute; 
-    
-    /* 适配 iPhone 灵动岛/刘海屏 */
-    top: 15px; 
-    left: 15px;
-    
-    /* iOS 性能优化 */
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-
-  #content {
-    /* 因为 Logo 不悬浮了，不用担心撞车，顶部间距可以稍微改回自然一点 */
-    margin-top: 80px; 
-    
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 20px 15px;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  h1 {
-    font-size: 26px;
-    margin-bottom: 15px;
-  }
-  
-  h2 {
-    font-size: 22px;
-  }
-  
-  p {
-    font-size: 16px;
-  }
-}
-
-/* --- Sitemap/文章列表专用样式 --- */
+/* --- 9. Sitemap 列表卡片样式 (全局生效) --- */
 .article-list {
   list-style: none;
   padding: 0;
@@ -176,40 +145,8 @@ img {
 .article-list li {
   border-bottom: 1px solid #eee;
 }
-
 .article-list li:last-child {
   border-bottom: none;
 }
 
-.article-list a {
-  display: block;
-  padding: 16px 5px;
-  font-size: 18px;
-  color: #333;
-  transition: all 0.2s ease;
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.article-list a:hover {
-  color: #0073bb;
-  padding-left: 10px;
-  background-color: #fafafa;
-}
-
-/* 列表标题装饰 */
-h2 {
-  position: relative;
-  padding-left: 15px;
-}
-h2::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 18px;
-  background-color: #0073bb;
-  border-radius: 2px;
-}
+.article-
