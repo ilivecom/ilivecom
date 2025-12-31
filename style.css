@@ -126,25 +126,34 @@ img {
 }
 
 /* --- 8. 移动端适配 (Mobile) --- */
-/* 利用层叠特性，只写与 PC 端不同的样式，精简代码体积 */
 @media (max-width: 767px) {
   
   #logo {
-    /* iOS 性能优化 Hack */
+    /* 🔴 核心修复：从 fixed 改为 absolute */
+    /* 这样 Logo 就会乖乖待在页面最顶端，不会随着手指滑动“跟屁虫”一样粘在屏幕上了 */
+    position: absolute; 
+    
+    /* 适配 iPhone 灵动岛/刘海屏 */
+    top: 15px; 
+    left: 15px;
+    
+    /* iOS 性能优化 */
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
 
   #content {
-    margin-top: 90px; /* 移动端顶部留白收紧 */
+    /* 因为 Logo 不悬浮了，不用担心撞车，顶部间距可以稍微改回自然一点 */
+    margin-top: 80px; 
+    
     margin-left: 10px;
     margin-right: 10px;
-    padding: 20px 15px; /* 左右内边距微调，增加文字显示宽度 */
-    -webkit-overflow-scrolling: touch; /* iOS 滚动回弹效果 */
+    padding: 20px 15px;
+    -webkit-overflow-scrolling: touch;
   }
   
   h1 {
-    font-size: 26px; /* 移动端标题适配 */
+    font-size: 26px;
     margin-bottom: 15px;
   }
   
@@ -154,8 +163,6 @@ img {
   
   p {
     font-size: 16px;
-    /* 移动端文字对齐优化，可选 */
-    /* text-align: justify; */ 
   }
 }
 
