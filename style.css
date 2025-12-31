@@ -1,14 +1,21 @@
 /* style.css - 2025 Final Fixed Version */
 
-/* --- 1. 全局设置 --- */
+/* 设置页面样式 - 优化版 (加粗感 + 中文适配) */
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  
+  /* 1. 完整的字体栈：优先使用系统UI，并指定了优质的中文字体 */
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  
   font-size: 16px;
   background-color: #f5f5f5;
-  color: #333;
-  -webkit-font-smoothing: antialiased;
+  
+  /* 2. 颜色加深：从 #333 改为 #1a1a1a，让文字视觉上更粗、更清晰 */
+  color: #1a1a1a;
+  
+  /* 3. 删除了 'antialiased'，让 Mac 上的文字恢复默认的厚实渲染 */
+  /* -webkit-font-smoothing: antialiased; <--- 这行已删除 */
 }
 
 /* --- 2. Logo 样式 (PC端默认：悬浮固定) --- */
