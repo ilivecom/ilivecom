@@ -1,40 +1,32 @@
 /* style.css - 2025 Final Fixed Version */
 
-/* 设置页面样式 - 优化版 (加粗感 + 中文适配) */
-body {
-  margin: 0;
-  padding: 0;
-  
-  /* 1. 完整的字体栈：优先使用系统UI，并指定了优质的中文字体 */
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  
-  font-size: 16px;
-  background-color: #f5f5f5;
-  
-  /* 2. 颜色加深：从 #333 改为 #1a1a1a，让文字视觉上更粗、更清晰 */
-  color: #1a1a1a;
-  
-  /* 3. 删除了 'antialiased'，让 Mac 上的文字恢复默认的厚实渲染 */
-  /* -webkit-font-smoothing: antialiased; <--- 这行已删除 */
+/* --- 标题装饰微调 --- */
+
+/* h1 保持原样：强力、醒目 */
+h1::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;           /* 粗一点 */
+  height: 26px;
+  background-color: #0073bb; 
+  border-radius: 2px;
 }
 
-/* --- 2. Logo 样式 (PC端默认：悬浮固定) --- */
-#logo {
-  position: fixed; /* 电脑上悬浮，方便点击 */
-  top: 10px;
-  left: 10px;
-  z-index: 9999;
-  display: block;
-  width: 50px;
-  height: 50px;
-  background-image: url('img/andrew.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  /* 消除点击阴影 */
-  outline: none;
-  border: none;
-  -webkit-tap-highlight-color: transparent;
+/* h2 进行弱化：变细、变淡 */
+h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;           /* 变细：从 4px 改为 2px */
+  height: 18px;
+  background-color: rgba(0, 115, 187, 0.4); /* 变淡：加入透明度 */
+  border-radius: 1px;
+}
 }
 
 /* --- 3. 内容容器 --- */
