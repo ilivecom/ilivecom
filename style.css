@@ -1,38 +1,32 @@
-/* style.css - Andrew World 最终整合版 */
+/* style.css - Andrew World 恢复版 */
 
-/* --- 1. 全局设置 (字体与颜色) --- */
+/* --- 1. 全局设置 (现代字体与颜色) --- */
 body {
   margin: 0;
   padding: 0;
-  /* 现代系统字体栈 */
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
   font-size: 16px;
   background-color: #f5f5f5;
-  color: #1a1a1a; /* 全局深色，确保清晰 */
+  color: #1a1a1a;
 }
 
-/* --- 2. Logo 样式 (方案 B: Digital A) --- */
+/* --- 2. Logo 样式 (恢复为原来的 andrew.jpg) --- */
 #logo {
   position: fixed; /* PC端悬浮 */
   top: 15px;
   left: 15px;
   z-index: 9999;
   display: block;
-  width: 54px;
-  height: 54px;
-  /* 指向你的新 Logo 文件 */
-  background-image: url('img/logo.svg');
-  background-size: contain;
-  background-position: center;
+  width: 50px;
+  height: 50px;
+  /* 🔴 恢复路径：确保这里指向你服务器上的照片 */
+  background-image: url('img/andrew.jpg');
+  background-size: cover;
   background-repeat: no-repeat;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   outline: none;
   border: none;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.2s ease;
-}
-
-#logo:hover {
-  transform: scale(1.05); /* 鼠标悬停微动 */
 }
 
 /* --- 3. 内容容器 --- */
@@ -47,16 +41,15 @@ body {
   border-radius: 12px;
 }
 
-/* --- 4. 标题装饰 (解决“线太多”：一浓一淡) --- */
+/* --- 4. 标题装饰 (一浓一淡模式) --- */
 h1, h2 {
   position: relative;
   padding-left: 15px;
   font-weight: bold;
   line-height: 1.2;
-  color: #222;
 }
 
-/* h1 大标题：粗蓝条，作为视觉起点 */
+/* h1 大标题：粗蓝条 */
 h1::before {
   content: "";
   position: absolute;
@@ -69,16 +62,16 @@ h1::before {
   border-radius: 2px;
 }
 
-/* h2 小标题：细且淡的蓝条，降低视觉疲劳 */
+/* h2 小标题：细且淡的蓝条 (你截图里生效的那个效果) */
 h2::before {
   content: "";
   position: absolute;
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 2px; /* 变细 */
+  width: 2px;
   height: 18px;
-  background-color: rgba(0, 115, 187, 0.4); /* 变淡：带透明度 */
+  background-color: rgba(0, 115, 187, 0.4); /* 带透明度的淡蓝色 */
   border-radius: 1px;
 }
 
@@ -87,10 +80,10 @@ h2 { font-size: 24px; margin-top: 35px; }
 
 /* --- 5. 正文与链接 --- */
 p {
-  line-height: 1.7; /* 增加行间距，更易读 */
+  line-height: 1.7;
   margin-top: 10px;
   margin-bottom: 20px;
-  color: #333; /* 适中的深灰色 */
+  color: #333;
 }
 
 a {
@@ -135,14 +128,12 @@ img {
 /* --- 8. 移动端适配 --- */
 @media (max-width: 767px) {
   #logo {
-    position: absolute !important; /* 手机上不跟随滑动 */
-    top: max(15px, env(safe-area-inset-top));
+    position: absolute !important; /* 手机上固定在顶部，不随滑动走 */
+    top: 15px;
     left: 15px;
-    width: 48px;
-    height: 48px;
   }
   #content {
-    margin-top: 100px; /* 增加顶部空间避开 Logo */
+    margin-top: 90px;
     margin-left: 10px;
     margin-right: 10px;
     padding: 25px 20px;
@@ -150,3 +141,4 @@ img {
   h1 { font-size: 26px; }
   h2 { font-size: 22px; }
 }
+/* 🔴 删除了之前多余的 } 符号 */
