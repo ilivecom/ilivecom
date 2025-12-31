@@ -1,28 +1,47 @@
-/* 设置页面样式 */
+/* style.css - 2025 Final Optimized Version */
+
+/* --- 1. 全局设置 (Global) --- */
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  /* 升级字体栈：iOS/Mac显示原生字体，Windows显示微软雅黑/Segoe UI，更现代清晰 */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   font-size: 16px;
   background-color: #f5f5f5;
   color: #333;
+  /* 字体抗锯齿渲染，让文字边缘更平滑 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* 设置logo样式 */
+/* --- 2. Logo 样式 (核心修复) --- */
 #logo {
+  /* 布局与层级 */
   position: fixed;
   top: 10px;
   left: 10px;
+  z-index: 9999;
+  
+  /* 尺寸与背景 */
+  display: block; /* 关键：确保它是块级元素 */
   width: 50px;
   height: 50px;
   background-image: url('img/andrew.jpg');
   background-size: cover;
-  border-radius: 0;
+  background-repeat: no-repeat;
+  
+  /* 视觉装饰 */
+  border-radius: 0; /* 保持原设计的直角 */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  z-index: 9999;
+  
+  /* --- 关键修复：消除点击时的“丑陋横条”和高亮色块 --- */
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent; /* 针对 iOS/Android 去除高亮 */
+  cursor: pointer;
 }
 
-/* 设置页面主体样式 */
+/* --- 3. 主体容器 (Content) --- */
 #content {
   margin-top: 80px;
   margin-left: auto;
@@ -34,12 +53,13 @@ body {
   border-radius: 10px;
 }
 
-/* 设置标题样式 */
+/* --- 4. 排版样式 (Typography) --- */
 h1 {
   font-size: 32px;
   font-weight: bold;
   margin-top: 0;
   line-height: 1.2;
+  color: #333;
 }
 
 h2 {
@@ -47,124 +67,95 @@ h2 {
   font-weight: bold;
   margin-top: 30px;
   line-height: 1.2;
+  color: #333;
 }
 
-/* 设置段落样式 */
 p {
-  line-height: 1.5;
+  line-height: 1.6; /* 稍微增加行高，阅读更舒适 */
   margin-top: 10px;
+  margin-bottom: 20px;
+  color: #555; /* 稍微柔和一点的黑色 */
 }
 
-/* 设置链接样式 */
+/* --- 5. 链接交互 (Links) --- */
 a {
   color: #0073bb;
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent; /* 去除所有链接点击时的背景灰块 */
+  /* 添加过渡动画，鼠标移上去有“呼吸感” */
+  transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
 
 a:hover {
   color: #004f80;
-  text-decoration: none;
+  opacity: 0.8;
 }
 
-/* 设置图片样式 */
+/* --- 6. 图片样式 (Images) --- */
 img {
   max-width: 100%;
   height: auto;
   margin-top: 30px;
+  border-radius: 10px; /* 统一圆角，增加精致感 */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 加一点轻微阴影，更有层次 */
 }
 
-/* 设置版权信息样式 */
+/* --- 7. 底部版权 (Footer) --- */
 #footer {
   text-align: center;
   margin-top: 30px;
   padding: 10px;
   background-color: #f5f5f5;
   font-size: 12px;
+  color: #666;
+  /* 淡入动画，防止 JS 加载内容时产生的视觉闪烁 */
+  animation: fadeIn 0.8s ease-in;
 }
 
 #footer a {
   color: #666;
-  text-decoration: none;
 }
 
 #footer a:hover {
   color: #333;
 }
 
-/* iOS 设备样式 */
-@media only screen and (max-width: 767px) and (min-device-width: 320px) and (-webkit-min-device-pixel-ratio: 2) {
-  /* 修复 iOS Safari 上的问题 */
+/* 定义淡入动画关键帧 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* --- 8. 移动端适配 (Mobile) --- */
+/* 利用层叠特性，只写与 PC 端不同的样式，精简代码体积 */
+@media (max-width: 767px) {
+  
   #logo {
-    position: relative;
-    top: 10px;
-    left: 10px;
-    width: 50px;
-    height: 50px;
-    background-image: url('img/andrew.jpg');
-    background-size: cover;
-    border-radius: 0;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    z-index: 9999;
+    /* iOS 性能优化 Hack */
     -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 
   #content {
-    -webkit-overflow-scrolling: touch;
-    margin-top: 60px;
+    margin-top: 60px; /* 移动端顶部留白收紧 */
     margin-left: 10px;
     margin-right: 10px;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0,0.25);
-border-radius: 10px;
+    padding: 20px 15px; /* 左右内边距微调，增加文字显示宽度 */
+    -webkit-overflow-scrolling: touch; /* iOS 滚动回弹效果 */
+  }
+  
+  h1 {
+    font-size: 26px; /* 移动端标题适配 */
+    margin-bottom: 15px;
+  }
+  
+  h2 {
+    font-size: 22px;
+  }
+  
+  p {
+    font-size: 16px;
+    /* 移动端文字对齐优化，可选 */
+    /* text-align: justify; */ 
+  }
 }
-h1 {
-font-size: 28px;
-color: #333;
-margin-top: 0;
-margin-bottom: 20px;
-}
-h2 {
-font-size: 22px;
-color: #333;
-margin-top: 30px;
-}
-p {
-font-size: 16px;
-color: #555;
-line-height: 1.5;
-margin-top: 10px;
-margin-bottom: 20px;
-}
-a {
-color: #0073bb;
-text-decoration: none;
-}
-a:hover {
-color: #004f80;
-text-decoration: none;
-}
-img {
-max-width: 100%;
-height: auto;
-margin-top: 30px;
-border-radius: 10px;
-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-}
-#footer {
-text-align: center;
-margin-top: 30px;
-padding: 10px;
-background-color: #f5f5f5;
-font-size: 12px;
-color: #666;
-}
-#footer a {
-color: #666;
-text-decoration: none;
-}
-#footer a:hover {
-color: #333;
-}
-}
-
