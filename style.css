@@ -1,18 +1,18 @@
-/* style.css - Andrew */
+/* style.css */
 
-/* --- 1. 全局设置 --- */
+/* --- 1. 全局设置 (保留你的 #1a1a1a) --- */
 body {
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   background-color: #f5f5f5;
-  color: #1a1a1a; /* 加深颜色，更清晰 */
+  color: #1a1a1a; 
 }
 
-/* --- 2. Logo 样式 --- */
+/* --- 2. Logo 样式 (保留原有参数) --- */
 #logo {
-  position: fixed;
+  position: fixed; 
   top: 10px;
   left: 10px;
   z-index: 9999;
@@ -23,7 +23,6 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
   outline: none;
   border: none;
   -webkit-tap-highlight-color: transparent;
@@ -41,7 +40,7 @@ body {
   border-radius: 10px;
 }
 
-/* --- 4. 标题样式 (统一蓝条装饰) --- */
+/* --- 4. 标题样式 (保留你的 #333 和 #0073bb 实色竖条) --- */
 h1, h2 {
   position: relative;
   padding-left: 15px;
@@ -67,7 +66,7 @@ h1::before { height: 26px; }
 h2 { font-size: 24px; margin-top: 30px; }
 h2::before { height: 20px; }
 
-/* --- 5. 正文与链接 --- */
+/* --- 5. 正文与链接 (保留你的 #555) --- */
 p {
   line-height: 1.6;
   margin-top: 10px;
@@ -82,20 +81,40 @@ a {
   transition: opacity 0.2s;
 }
 
-a:hover { opacity: 0.8; }
-
-/* --- 6. 图片与列表 (核心修复：解决横线问题) --- */
-img {
-  display: block;       /* 让图片居中 */
-  margin: 30px auto;    /* 上下 30px 间距，左右自动居中 */
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  border: none;         /* 🔴 修复：消除链接图片可能的边框 */
-  outline: none;
-  box-shadow: none;     /* 🔴 修复：彻底去掉阴影，解决顶部“黑线” */
+a:hover {
+  color: #004f80;
+  opacity: 0.8;
 }
 
+/* --- 6. 图片 (🔴 修复横线问题的核心修改) --- */
+img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 30px;
+  border-radius: 10px;
+  /* 彻底删除阴影，这是横线的主要来源 */
+  box-shadow: none; 
+  /* 强制去掉链接包裹时产生的边框 */
+  border: 0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- 7. 底部版权 --- */
+#footer {
+  text-align: center;
+  margin-top: 30px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  font-size: 12px;
+  color: #666;
+  animation: fadeIn 0.8s ease-in;
+}
+#footer a { color: #666; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- 8. Sitemap 列表样式 --- */
 .article-list { list-style: none; padding: 0; margin: 0; }
 .article-list li { border-bottom: 1px solid #eee; }
 .article-list li:last-child { border-bottom: none; }
@@ -112,29 +131,22 @@ img {
   padding-left: 10px;
 }
 
-/* --- 7. 底部版权 --- */
-#footer {
-  text-align: center;
-  margin-top: 30px;
-  padding: 10px;
-  font-size: 12px;
-  color: #666;
-}
-
-/* --- 8. 移动端适配 --- */
+/* --- 9. 移动端适配 (保留你的参数) --- */
 @media (max-width: 767px) {
   #logo {
     position: absolute !important; 
     top: 15px; 
     left: 15px;
   }
+
   #content {
     margin-top: 90px; 
     margin-left: 10px;
     margin-right: 10px;
     padding: 20px 15px;
   }
-  h1 { font-size: 26px; }
+  
+  h1 { font-size: 26px; margin-bottom: 15px; }
   h2 { font-size: 22px; }
   p { font-size: 16px; }
 }
