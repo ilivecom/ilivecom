@@ -1,29 +1,29 @@
-/* style.css - Andrew World 恢复版 */
+/* style.css - Andrew */
 
-/* --- 1. 全局设置 (现代字体与颜色) --- */
+/* --- 1. 全局设置 --- */
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   background-color: #f5f5f5;
-  color: #1a1a1a;
+  color: #1a1a1a; /* 加深颜色，更清晰 */
 }
 
-/* --- 2. Logo 样式 (恢复为原来的 andrew.jpg) --- */
+/* --- 2. Logo 样式 --- */
 #logo {
-  position: fixed; /* PC端悬浮 */
-  top: 15px;
-  left: 15px;
+  position: fixed;
+  top: 10px;
+  left: 10px;
   z-index: 9999;
   display: block;
   width: 50px;
   height: 50px;
-  /* 🔴 恢复路径：确保这里指向你服务器上的照片 */
   background-image: url('img/andrew.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
   outline: none;
   border: none;
   -webkit-tap-highlight-color: transparent;
@@ -35,71 +35,65 @@ body {
   margin-left: auto;
   margin-right: auto;
   max-width: 800px;
-  padding: 30px;
+  padding: 20px;
   background-color: #fff;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
 }
 
-/* --- 4. 标题装饰 (一浓一淡模式) --- */
+/* --- 4. 标题样式 (统一蓝条装饰) --- */
 h1, h2 {
   position: relative;
   padding-left: 15px;
   font-weight: bold;
   line-height: 1.2;
+  color: #333;
 }
 
-/* h1 大标题：粗蓝条 */
-h1::before {
+h1::before, h2::before {
   content: "";
   position: absolute;
   left: 0;
   top: 50%;
   transform: translateY(-50%);
   width: 4px;
-  height: 26px;
   background-color: #0073bb;
   border-radius: 2px;
 }
 
-/* h2 小标题：细且淡的蓝条 (你截图里生效的那个效果) */
-h2::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 2px;
-  height: 18px;
-  background-color: rgba(0, 115, 187, 0.4); /* 带透明度的淡蓝色 */
-  border-radius: 1px;
-}
-
 h1 { font-size: 32px; margin-top: 0; }
-h2 { font-size: 24px; margin-top: 35px; }
+h1::before { height: 26px; }
+
+h2 { font-size: 24px; margin-top: 30px; }
+h2::before { height: 20px; }
 
 /* --- 5. 正文与链接 --- */
 p {
-  line-height: 1.7;
+  line-height: 1.6;
   margin-top: 10px;
   margin-bottom: 20px;
-  color: #333;
+  color: #555;
 }
 
 a {
   color: #0073bb;
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
   transition: opacity 0.2s;
 }
 
-a:hover { opacity: 0.7; }
+a:hover { opacity: 0.8; }
 
-/* --- 6. 图片与列表 --- */
+/* --- 6. 图片与列表 (核心修复：解决横线问题) --- */
 img {
+  display: block;       /* 让图片居中 */
+  margin: 30px auto;    /* 上下 30px 间距，左右自动居中 */
   max-width: 100%;
   height: auto;
-  margin-top: 20px;
   border-radius: 10px;
+  border: none;         /* 🔴 修复：消除链接图片可能的边框 */
+  outline: none;
+  box-shadow: none;     /* 🔴 修复：彻底去掉阴影，解决顶部“黑线” */
 }
 
 .article-list { list-style: none; padding: 0; margin: 0; }
@@ -107,12 +101,14 @@ img {
 .article-list li:last-child { border-bottom: none; }
 .article-list a {
   display: block;
-  padding: 18px 5px;
+  padding: 16px 5px;
   font-size: 18px;
   color: #333;
+  font-weight: 500;
 }
 .article-list a:hover {
   background-color: #fafafa;
+  color: #0073bb;
   padding-left: 10px;
 }
 
@@ -120,25 +116,25 @@ img {
 #footer {
   text-align: center;
   margin-top: 30px;
-  padding: 20px;
+  padding: 10px;
   font-size: 12px;
-  color: #999;
+  color: #666;
 }
 
 /* --- 8. 移动端适配 --- */
 @media (max-width: 767px) {
   #logo {
-    position: absolute !important; /* 手机上固定在顶部，不随滑动走 */
-    top: 15px;
+    position: absolute !important; 
+    top: 15px; 
     left: 15px;
   }
   #content {
-    margin-top: 90px;
+    margin-top: 90px; 
     margin-left: 10px;
     margin-right: 10px;
-    padding: 25px 20px;
+    padding: 20px 15px;
   }
   h1 { font-size: 26px; }
   h2 { font-size: 22px; }
+  p { font-size: 16px; }
 }
-/* 🔴 删除了之前多余的 } 符号 */
