@@ -1,18 +1,26 @@
-/* style.css */
+/* style.css - 2025 Final Fixed Version */
 
-/* --- 1. 全局设置 (保留你的 #1a1a1a) --- */
+/* 设置页面样式 - 优化版 (加粗感 + 中文适配) */
 body {
   margin: 0;
   padding: 0;
+  
+  /* 1. 完整的字体栈：优先使用系统UI，并指定了优质的中文字体 */
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  
   font-size: 16px;
   background-color: #f5f5f5;
-  color: #1a1a1a; 
+  
+  /* 2. 颜色加深：从 #333 改为 #1a1a1a，让文字视觉上更粗、更清晰 */
+  color: #1a1a1a;
+  
+  /* 3. 删除了 'antialiased'，让 Mac 上的文字恢复默认的厚实渲染 */
+  /* -webkit-font-smoothing: antialiased; <--- 这行已删除 */
 }
 
-/* --- 2. Logo 样式 (保留原有参数) --- */
+/* --- 2. Logo 样式 (PC端默认：悬浮固定) --- */
 #logo {
-  position: fixed; 
+  position: fixed; /* 电脑上悬浮，方便点击 */
   top: 10px;
   left: 10px;
   z-index: 9999;
@@ -23,6 +31,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  /* 消除点击阴影 */
   outline: none;
   border: none;
   -webkit-tap-highlight-color: transparent;
@@ -40,7 +49,7 @@ body {
   border-radius: 10px;
 }
 
-/* --- 4. 标题样式 (保留你的 #333 和 #0073bb 实色竖条) --- */
+/* --- 4. 标题样式 (全局蓝色竖条装饰) --- */
 h1, h2 {
   position: relative;
   padding-left: 15px;
@@ -49,6 +58,7 @@ h1, h2 {
   color: #333;
 }
 
+/* 统一的蓝条 */
 h1::before, h2::before {
   content: "";
   position: absolute;
@@ -66,7 +76,7 @@ h1::before { height: 26px; }
 h2 { font-size: 24px; margin-top: 30px; }
 h2::before { height: 20px; }
 
-/* --- 5. 正文与链接 (保留你的 #555) --- */
+/* --- 5. 正文与链接 --- */
 p {
   line-height: 1.6;
   margin-top: 10px;
@@ -86,19 +96,13 @@ a:hover {
   opacity: 0.8;
 }
 
-/* --- 6. 图片 (🔴 修复横线问题的核心修改) --- */
+/* --- 6. 图片 --- */
 img {
   max-width: 100%;
   height: auto;
   margin-top: 30px;
   border-radius: 10px;
-  /* 彻底删除阴影，这是横线的主要来源 */
-  box-shadow: none; 
-  /* 强制去掉链接包裹时产生的边框 */
-  border: 0;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* --- 7. 底部版权 --- */
@@ -112,18 +116,28 @@ img {
   animation: fadeIn 0.8s ease-in;
 }
 #footer a { color: #666; }
+#footer a:hover { color: #333; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* --- 8. Sitemap 列表样式 --- */
-.article-list { list-style: none; padding: 0; margin: 0; }
-.article-list li { border-bottom: 1px solid #eee; }
-.article-list li:last-child { border-bottom: none; }
+/* --- 8. Sitemap 列表样式 (找回丢失的卡片样式) --- */
+.article-list { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
+}
+.article-list li { 
+  border-bottom: 1px solid #eee; 
+}
+.article-list li:last-child { 
+  border-bottom: none; 
+}
 .article-list a {
-  display: block;
-  padding: 16px 5px;
+  display: block;        /* 让链接占满整行 */
+  padding: 16px 5px;     /* 增加间距，变得宽松 */
   font-size: 18px;
   color: #333;
   font-weight: 500;
+  text-decoration: none;
 }
 .article-list a:hover {
   background-color: #fafafa;
@@ -131,19 +145,27 @@ img {
   padding-left: 10px;
 }
 
-/* --- 9. 移动端适配 (保留你的参数) --- */
+/* --- 9. 移动端适配 (核心修复) --- */
+/* 使用最通用的写法，确保 iPhone 16 Pro 能识别 */
 @media (max-width: 767px) {
+  
   #logo {
+    /* 🔴 关键：改为绝对定位 */
+    /* 这样它会留在页面顶部，当你往下滑动时，它会随页面滚走，不再挡视线 */
     position: absolute !important; 
     top: 15px; 
     left: 15px;
   }
 
   #content {
+    /* 🔴 关键：增加顶部间距 */
+    /* 90px 足够让正文避开 Logo，解决“贴在一起”的问题 */
     margin-top: 90px; 
+    
     margin-left: 10px;
     margin-right: 10px;
     padding: 20px 15px;
+    -webkit-overflow-scrolling: touch;
   }
   
   h1 { font-size: 26px; margin-bottom: 15px; }
