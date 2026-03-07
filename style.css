@@ -60,7 +60,7 @@ h1::before {
   transform: translateY(-50%);
   width: 4px;
   height: 26px;
-  background-color: #0073bb;
+  background-color:#00C2B3;
   border-radius: 2px;
 }
 
@@ -73,7 +73,7 @@ h2::before {
   transform: translateY(-50%);
   width: 2px;
   height: 18px;
-  background-color: rgba(0, 115, 187, 0.35); /* 半透明淡蓝 */
+  background-color: rgba(0, 194, 179, 0.35); /* 半透明淡蓝 */
   border-radius: 1px;
 }
 
