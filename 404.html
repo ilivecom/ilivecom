@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>页面走丢了 - hiwd</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+
+    <meta property="og:title" content="页面走丢了 - hiwd">
+    <meta property="og:description" content="你访问的页面不存在或已被移除。">
+    <meta property="og:image" content="https://hiwd.com/img/andrew.jpg">
+    <meta property="og:url" content="https://hiwd.com/404.html">
+
+    <style>
+      .err-code {
+        font-size: 88px;
+        font-weight: 700;
+        color: #00C2B3;
+        line-height: 1;
+        margin: 10px 0 0;
+        letter-spacing: -2px;
+      }
+      .err-msg {
+        font-size: 18px;
+        color: #555;
+        margin-top: 6px;
+      }
+      .err-sub {
+        color: #888;
+        font-size: 14px;
+        margin-top: 18px;
+      }
+      .countdown {
+        color: #00C2B3;
+        font-weight: 600;
+      }
+      .err-actions {
+        margin-top: 28px;
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .err-actions a {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        text-decoration: none;
+        transition: opacity 0.2s, transform 0.2s;
+      }
+      .err-actions a.primary {
+        background: #00C2B3;
+        color: #fff;
+      }
+      .err-actions a.ghost {
+        background: transparent;
+        color: #008F84;
+        border: 1px solid #cfeeea;
+      }
+      .err-actions a:hover { opacity: 0.85; }
+      @media (max-width: 767px) {
+        .err-code { font-size: 64px; }
+        .err-msg { font-size: 16px; }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="https://hiwd.com/" id="logo"></a>
+
+    <div id="content">
+      <p class="err-code">404</p>
+      <h1>页面走丢了</h1>
+
+      <p class="err-msg">你访问的页面不存在，或者已经被搬到别处。</p>
+
+      <p class="err-sub">
+        将在 <span class="countdown" id="countdown">5</span> 秒后自动返回首页 ——
+        <a href="#" id="cancel-redirect">取消</a>
+      </p>
+
+      <div class="err-actions">
+        <a class="primary" href="/">返回首页</a>
+        <a class="ghost" href="/sitemap.html">查看网站地图</a>
+      </div>
+
+      <p style="margin-top: 40px; color: #aaa; font-size: 13px;">
+        如果你确信链接没错，可能是文章已被移除或改名。试试从
+        <a href="/sitemap.html">网站地图</a> 找找看。
+      </p>
+    </div>
+
+    <script>
+      // 自动倒计时跳转
+      (function () {
+        var seconds = 5;
+        var el = document.getElementById('countdown');
+        var cancelBtn = document.getElementById('cancel-redirect');
+        var cancelled = false;
+
+        var timer = setInterval(function () {
+          if (cancelled) return;
+          seconds -= 1;
+          if (seconds <= 0) {
+            clearInterval(timer);
+            window.location.href = '/';
+            return;
+          }
+          el.textContent = seconds;
+        }, 1000);
+
+        cancelBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          cancelled = true;
+          clearInterval(timer);
+          el.parentNode.innerHTML = '已取消自动跳转。';
+        });
+      })();
+    </script>
+
+    <script>
+    fetch('https://hiwd.com/footer.html')
+      .then(response => response.text())
+      .then(data => document.body.insertAdjacentHTML('beforeend', data));
+    </script>
+  </body>
+</html>
