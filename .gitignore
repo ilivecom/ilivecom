@@ -1,0 +1,14 @@
+# 本地编辑器，不上传 GitHub
+admin.html
+
+# macOS
+.DS_Store
+
+# 编辑器
+.vscode/
+.idea/
+
+# 临时文件
+*.swp
+*.tmp
+*~
