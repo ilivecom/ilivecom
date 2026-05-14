@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>效率进化：如何用大模型为静态网页手搓一个专属发布后台 - hiwd</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    
+    <meta property="og:title" content="效率进化：如何用大模型为静态网页手搓一个专属发布后台">
+    <meta property="og:description" content="AI Coding">
+    <meta property="og:image" content="https://hiwd.com/img/andrew.jpg">
+    <meta property="og:url" content="https://hiwd.com/andrew/ai-coding.html">
+  </head>
+  <body>
+    <a href="https://hiwd.com/" id="logo"></a>
+
+    <div id="content">
+      <h1>效率进化：如何用大模型为静态网页手搓一个专属发布后台</h1>
+
+      <p>维护静态博客或是纯 HTML 网站，最让人头疼的往往是“写文章”本身之外的琐碎流程：新建文件、调整格式、手动推送……为了让创作更加丝滑，今天上午我决定给自己的网页加点料——利用 AI 打造一个专属的本地 Admin 发布页面。</p>
+
+      <p>整个过程出乎意料地顺畅，以下是我的实操复盘。</p>
+
+      <p>核心工具链<br>
+        开发环境：CodeBuddy IDE</p>
+
+      <p>AI 驱动核心：Claude Opus 4.7 (1M 上下文)</p>
+
+      <p>版本控制：GitHub</p>
+
+      <p>具体的折腾过程<br>
+        1. 环境准备：拉取本地代码<br>
+        第一步非常常规。打开 CodeBuddy IDE，将托管在 GitHub 上的网站仓库直接 Clone 到本地环境。此时，我的面前是一个完整的本地文件树，等待 AI 的介入。</p>
+
+      <p>2. “神笔马良”式的需求沟通<br>
+        我没有自己去写任何一行 HTML 骨架或 JS 逻辑，而是直接唤醒了 Claude Opus 4.7（它那高达 100 万的上下文窗口，简直是处理整个项目文件的神器）。</p>
+
+      <p>我的指令非常明确：“我要在当前的网站目录里，增加一个用于发布和编辑文章的页面。”</p>
+
+      <p>几乎是瞬间，模型就在我的本地文件夹里生成了一个基础的 Admin 页面。在此之后，我完全进入了“副驾驶（Copilot）”模式：我提出修改意见，模型直接在本地文件上改来改去，不断打磨编辑器的体验。</p>
+
+      <p>3. 跑通本地闭环工作流<br>
+        经过短暂的调试，我的本地写作闭环已经完全跑通，现在的操作体验变成了这样：</p>
+
+      <p>直接在这个新建的 Admin 页面里沉浸式撰写文章。</p>
+
+      <p>写完后点击提交，页面会自动生成排版好的新 HTML 文件。</p>
+
+      <p>将下载好的 HTML 文件，直接拖拽放进对应的本地文章文件夹中。</p>
+
+      <p>4. 打通最后一公里：一键发布上线<br>
+        本地能跑通还不够，最终的目的是要让文章发布到线上。</p>
+
+      <p>为了省去频繁在终端敲打 git commit 和 git push 命令的麻烦，我直接获取了我的 GitHub Personal Access Token。拿到 Token 后，剩下的脏活累活再次交给了大模型——我只需要告诉它更新的需求，它就能利用 Token 自动将本地的文件变动提交并推送到 GitHub 仓库。</p>
+
+      <p>体验总结<br>
+        整个上午的体验堪称惊艳。没有陷入繁琐的代码 Debug，也没有去钻研复杂的框架文档。IDE 提供绝佳的本地代码管理和预览环境，而 Claude Opus 4.7 则充当了极其聪明的“全栈外包”。</p>
+
+      <p>从克隆仓库，到生成页面逻辑，再到最后的自动化推送，这种“我提需求，AI 干活”的模式，正在彻底改变个人项目的开发范式。如果你也在维护自己的静态小站，强烈建议用这套工作流为自己打造一个舒适的后台。</p>
+
+      <p>下一步，Claude Code……</p>
+
+      <p>Andrew, May 2026</p>
+
+     <p><a href="../index.html">← 返回首页</a></p>  
+    </div>
+
+    <script>
+    fetch('https://hiwd.com/footer.html')
+      .then(response => response.text())
+      .then(data => document.body.insertAdjacentHTML('beforeend', data));
+    </script>
+  </body>
+</html>
