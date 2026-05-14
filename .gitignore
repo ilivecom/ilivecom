@@ -1,6 +1,10 @@
 # 本地编辑器，不上传 GitHub
 admin.html
 
+# 个人换机指南，不上传 GitHub
+SETUP.md
+hiwd-backup/
+
 # macOS
 .DS_Store
 
