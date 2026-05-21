@@ -1,5 +1,10 @@
 /* style.css - 2025 Final Complete Version */
 
+/* 全局盒模型重置，确保布局精准不溢出 */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* --- 1. 全局设置 (字体与基础颜色) --- */
 body {
   margin: 0;
@@ -35,6 +40,7 @@ body {
   margin-top: 80px;
   margin-left: auto;
   margin-right: auto;
+  width: 90%;
   max-width: 800px;
   padding: 30px;
   background-color: #fff;
@@ -116,6 +122,7 @@ img {
   font-size: 18px;
   color: #333;
   text-decoration: none;
+  transition: padding-left 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
 }
 .article-list a:hover {
   background-color: #fafafa;
@@ -131,23 +138,29 @@ img {
   color: #999;
 }
 
-/* --- 9. 移动端适配 --- */
-@media (max-width: 767px) {
+/* --- 9. 响应式与移动端适配 --- */
+
+/* 平板与中屏设备 (宽度小于 1150px)：将 Logo 转为绝对定位，解决侧边固定遮挡问题 */
+@media (max-width: 1150px) {
   #logo {
     position: absolute !important;
     top: 15px;
     left: 15px;
-    /* 确保手机上大小合适 */
     width: 80px;
     height: 80px;
   }
   
   #content {
-    margin-top: 90px;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 25px 20px;
-    -webkit-overflow-scrolling: touch;
+    margin-top: 110px; /* 留出顶部 Logo 的垂直空间，防止重叠 */
+    padding: 30px 25px;
+  }
+}
+
+/* 手机端设备 (宽度小于 767px)：微调排版以最大化阅读面积 */
+@media (max-width: 767px) {
+  #content {
+    margin-top: 110px;
+    padding: 25px 18px; /* 减小内边距 */
   }
   
   h1 { font-size: 26px; }
