@@ -1,6 +1,10 @@
 # 本地编辑器，不上传 GitHub
 admin.html
 
+# 加密构建工具（含敏感操作），不上传
+build-cipher.html
+manage-template.html
+
 # 个人换机指南，不上传 GitHub
 SETUP.md
 hiwd-backup/
