@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>${escapeHtml(title || 'hiwd')}${title ? ' - hiwd' : ''}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="${escapeAttr(desc || '')}">
+    <link rel="stylesheet" type="text/css" href="${cssPath}">
+    
+    <meta property="og:title" content="${escapeAttr(title || 'hiwd')}">
+    <meta property="og:description" content="${escapeAttr(desc || '')}">
+    <meta property="og:image" content="${ogImage}">
+    <meta property="og:url" content="${pageUrl}">
+  </head>
+  <body>
+    <a href="${SITE}/" id="logo"></a>
+
+    <div id="content">
+${title ? `      <h1>${escapeHtml(title)}</h1>\n` : ''}
+${bodyHtml}
+${coverBlock}
+     <p><a href="${homePath}">← 返回首页</a></p>  
+    </div>
+
+    <script>
+    fetch('/footer.html')
+      .then(response => response.text())
+      .then(data => document.body.insertAdjacentHTML('beforeend', data));
+    </script>
+  </body>
+</html>
