@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>test - hiwd</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    
+    <meta property="og:title" content="test">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="https://hiwd.com/img/andrew.jpeg">
+    <meta property="og:url" content="https://hiwd.com/notes/test.html">
+  </head>
+  <body>
+    <a href="https://hiwd.com/" id="logo"></a>
+
+    <div id="content">
+      <h1>test</h1>
+
+      <p>这是一篇测试文件</p>
+
+      <p>test files</p>
+
+     <p><a href="../index.html">← 返回首页</a></p>  
+    </div>
+
+    <script>
+    fetch('/footer.html')
+      .then(response => response.text())
+      .then(data => document.body.insertAdjacentHTML('beforeend', data));
+    </script>
+  </body>
+</html>
