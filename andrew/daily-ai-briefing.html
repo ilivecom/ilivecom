@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>用 Claude 给自己造一份每日 AI 简报 - hiwd</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="用 Claude + web_search 每天自动筛选、生成并发布一份 AI 行业每日简报。">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+
+    <meta property="og:title" content="用 Claude 给自己造一份每日 AI 简报">
+    <meta property="og:description" content="用 Claude + web_search 每天自动筛选、生成并发布一份 AI 行业每日简报。">
+    <meta property="og:image" content="https://hiwd.com/img/andrew.jpeg">
+    <meta property="og:url" content="https://hiwd.com/andrew/daily-ai-briefing.html">
+  </head>
+  <body>
+    <a href="https://hiwd.com/" id="logo"></a>
+
+    <div id="content">
+      <h1>用 Claude 给自己造一份每日 AI 简报</h1>
+
+      <p>每天早上打开手机，刷一圈 Twitter、看看 HN、再扫两眼 TechCrunch，花了四十分钟，脑子里还是一团浆糊。AI 行业的信息密度太高了，噪音也太多。我想要的其实很简单：每天一份，精、准、快，只看真正值得看的。</p>
+
+      <p>于是今天花了一个上午，给自己造了一个。</p>
+
+      <h2>1. 想法很简单，让 Claude 替我去看</h2>
+
+      <p>核心逻辑一句话：用 Claude + web_search，每天跑一次，把结果渲染成静态 HTML，推到 GitHub Pages 上。不需要服务器，不需要数据库，也不需要后台。就是一个 Python 脚本，一个 HTML 模板。</p>
+
+      <p>信息源我分了三档。S 级是必须覆盖的一手源——OpenAI Blog、Anthropic News、Google DeepMind、Stratechery、Platformer 这些；A 级是 TechCrunch、Bloomberg、机器之心这类深度报道；B 级是 Hacker News 和 Ben's Bites，拿来补漏。</p>
+
+      <p>筛选标准也写得很死：只要产品技术突破、架构工程深度、商业战略信号、有分析深度的观点，其余一律排除。纯营销稿、股价新闻、名人 Twitter 口水战，一条都不要。</p>
+
+      <h2>2. Agentic loop 是关键</h2>
+
+      <p>Anthropic 有一个服务端 web_search 工具（web_search_20250305），搜索是在 Anthropic 那边执行的，Claude 可以连续搜好几轮，最后把结果综合进答案里。这意味着 Claude 不是一次性回答，而是一个 loop——搜索、思考、再搜索，直到 stop_reason 变成 end_turn。</p>
+
+      <p>我给这个 loop 设了 15 轮的安全上限。实测跑下来大概 5-8 轮就结束，拿到的内容质量明显比单次问答要好。</p>
+
+      <h2>3. 页面设计完全抄自 hiwd.com</h2>
+
+      <p>我不想让这个页面看起来像另一个东西。它应该是 hiwd 的一部分，视觉上一致。所以我把 hiwd 的 CSS 原样移了过来：背景 #f5f5f5、白色卡片加 box-shadow、圆角 12px、accent 色 #00C2B3、链接色 #008F84，连标题左侧的那条竖线都没变——h1 是 4px 实色，h2/h3 是 2px 半透明。</p>
+
+      <p>archive 部分也做了：每天的简报存一份 docs/archive/YYYY-MM-DD.html，同时更新 docs/index.html，用 archive.json 记录日期索引，页面底部的历史存档自动生成。域名用的是 <a href="https://daily.hiwd.com" target="_blank">daily.hiwd.com</a>，GitHub Pages 直接部署。</p>
+
+      <h2>4. 细节是后来磨出来的</h2>
+
+      <p>最开始 Claude 输出的 markdown 有时候格式会乱，比如 <code>**\n内容\n**</code> 这样断开的加粗。我在 clean_briefing() 里一条一条加正则处理：修复断行的 bold、删掉孤立的分号、合并多余的空行。</p>
+
+      <p>还有一个有意思的问题——Claude 有时会在内容末尾自动加一行「总字数：~850 字 | 符合要求精炼程度」，像是给自己交作业。我在 prompt 的硬性要求里明确写了禁止，同时在 clean_briefing() 里再加一条兜底正则 <code>^总字数[：:].+$</code>，双保险。</p>
+
+      <h2>5. 以后每天自动跑</h2>
+
+      <p>脚本本身大概 200 行 Python，逻辑并不复杂。麻烦的地方都在细节里——prompt 怎么写才能让 Claude 不乱发挥、HTML 模板怎么保持和主站一致、archive 怎么做才不会出现重复条目。这些花的时间比写代码本身还多。</p>
+
+      <p>之后打算把 GitHub Actions 配上，每天早上 CST 8 点自动触发，一觉醒来简报已经在了。</p>
+
+      <p>Andrew, May 2026</p>
+
+     <p><a href="../index.html">← 返回首页</a></p>
+    </div>
+
+    <script>
+    fetch('/footer.html')
+      .then(response => response.text())
+      .then(data => document.body.insertAdjacentHTML('beforeend', data));
+    </script>
+  </body>
+</html>
