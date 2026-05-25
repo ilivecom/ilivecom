@@ -26,9 +26,11 @@
 
       <p>核心逻辑一句话：用 Claude + web_search，每天跑一次，把结果渲染成静态 HTML，推到 GitHub Pages 上。不需要服务器，不需要数据库，也不需要后台。就是一个 Python 脚本，一个 HTML 模板。</p>
 
-      <p>信息源我分了三档。S 级是必须覆盖的一手源——OpenAI Blog、Anthropic News、Google DeepMind、Stratechery、Platformer 这些；A 级是 TechCrunch、Bloomberg、机器之心这类深度报道；B 级是 Hacker News 和 Ben's Bites，拿来补漏。</p>
+      <p>简报的筛选框架不是我从零想的。我参考了 Kiara Zhang 的 prompt，保留了里面对信息源分层和内容取舍的设计，再按自己的阅读习惯做了调整。</p>
 
-      <p>筛选标准也写得很死：只要产品技术突破、架构工程深度、商业战略信号、有分析深度的观点，其余一律排除。纯营销稿、股价新闻、名人 Twitter 口水战，一条都不要。</p>
+      <p>在这个框架里，信息源被分成三档。S 级是必须覆盖的一手源——OpenAI Blog、Anthropic News、Google DeepMind、Stratechery、Platformer 这些；A 级是 TechCrunch、Bloomberg、机器之心这类深度报道；B 级是 Hacker News 和 Ben's Bites，拿来补漏。</p>
+
+      <p>筛选标准也很明确：只要产品技术突破、架构工程深度、商业战略信号、有分析深度的观点，其余一律排除。纯营销稿、股价新闻、名人 Twitter 口水战，一条都不要。它的价值在于，先替 Claude 定义什么叫「值得看」，再让模型去搜索和判断。</p>
 
       <h2>2. Agentic loop 是关键</h2>
 
@@ -40,7 +42,7 @@
 
       <p>我不想让这个页面看起来像另一个东西。它应该是 hiwd 的一部分，视觉上一致。所以我把 hiwd 的 CSS 原样移了过来：背景 #f5f5f5、白色卡片加 box-shadow、圆角 12px、accent 色 #00C2B3、链接色 #008F84，连标题左侧的那条竖线都没变——h1 是 4px 实色，h2/h3 是 2px 半透明。</p>
 
-      <p>网页生成部分的 prompt 来自 Kiara Zhang，我在此基础上改成了适合 hiwd 的结构和视觉风格。</p>
+      <p>网页生成部分也参考了 Kiara Zhang 的 prompt，但我把页面结构和视觉风格改成了 hiwd 的样子。</p>
 
       <p>archive 部分也做了：每天的简报存一份 docs/archive/YYYY-MM-DD.html，同时更新 docs/index.html，用 archive.json 记录日期索引，页面底部的历史存档自动生成。域名用的是 <a href="https://daily.hiwd.com" target="_blank">daily.hiwd.com</a>，GitHub Pages 直接部署。</p>
 
@@ -48,11 +50,11 @@
 
       <p>最开始 Claude 输出的 markdown 有时候格式会乱，比如 <code>**\n内容\n**</code> 这样断开的加粗。我在 clean_briefing() 里一条一条加正则处理：修复断行的 bold、删掉孤立的分号、合并多余的空行。</p>
 
-      <p>还有一个有意思的问题——Claude 有时会在内容末尾自动加一行「总字数：~850 字 | 符合要求精炼程度」，像是给自己交作业。我在 prompt 的硬性要求里明确写了禁止，同时在 clean_briefing() 里再加一条兜底正则 <code>^总字数[：:].+$</code>，双保险。</p>
+      <p>还有一个有意思的问题——Claude 有时会在内容末尾自动加一行「总字数：~850 字 | 符合要求精炼程度」，像是给自己交作业。Kiara Zhang 的 prompt 里已经对输出格式做了限制，我又补了一条更明确的禁止要求，同时在 clean_briefing() 里再加一条兜底正则 <code>^总字数[：:].+$</code>，双保险。</p>
 
       <h2>5. 以后每天自动跑</h2>
 
-      <p>脚本本身大概 200 行 Python，逻辑并不复杂。麻烦的地方都在细节里——prompt 怎么写才能让 Claude 不乱发挥、HTML 模板怎么保持和主站一致、archive 怎么做才不会出现重复条目。这些花的时间比写代码本身还多。</p>
+      <p>脚本本身大概 200 行 Python，逻辑并不复杂。麻烦的地方都在细节里——如何在 Kiara Zhang 的 prompt 基础上继续收紧规则、HTML 模板怎么保持和主站一致、archive 怎么做才不会出现重复条目。这些花的时间比写代码本身还多。</p>
 
       <p>之后打算把 GitHub Actions 配上，每天早上 CST 8 点自动触发，一觉醒来简报已经在了。</p>
 
