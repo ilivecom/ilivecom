@@ -5,9 +5,17 @@
   <title>控制台 · hiwd</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
+  <script>
+    try {
+      if (localStorage.getItem('hiwd_session_v2')) {
+        document.documentElement.classList.add('restoring-session');
+      }
+    } catch {}
+  </script>
   <style>
     *,*::before,*::after { box-sizing: border-box; }
     html, body { -webkit-text-size-adjust: 100%; }
+    html.restoring-session body { visibility:hidden; }
     body {
       margin:0; padding:20px;
       font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -159,7 +167,49 @@
   }
 
   /* ---------- 渲染 admin（解密后整页替换） ---------- */
-  function renderAdmin(payloadJson) {
+  function waitForAdminStyles(newDoc) {
+    const hrefs = Array.from(newDoc.querySelectorAll('link[rel~="stylesheet"][href]'))
+      .map(link => new URL(link.getAttribute('href'), document.baseURI).href)
+      .filter(Boolean);
+    if (!hrefs.length) return Promise.resolve();
+
+    return Promise.all(hrefs.map(href => new Promise(resolve => {
+      const link = document.createElement('link');
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        link.remove();
+        resolve();
+      };
+      const timer = setTimeout(finish, 1200);
+
+      link.rel = 'stylesheet';
+      link.href = href;
+      link.media = 'print';
+      link.onload = finish;
+      link.onerror = finish;
+      document.head.appendChild(link);
+    }))).then(() => undefined);
+  }
+
+  function prepareStableFirstPaint(newDoc) {
+    const style = newDoc.createElement('style');
+    style.textContent = `
+      html.admin-stabilizing *, html.admin-stabilizing *::before, html.admin-stabilizing *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    `;
+    newDoc.head.appendChild(style);
+    newDoc.documentElement.classList.add('admin-stabilizing');
+    newDoc.documentElement.style.background = '#f5f5f5';
+    newDoc.body.style.background = '#f5f5f5';
+  }
+
+  async function renderAdmin(payloadJson) {
     let payload;
     try { payload = JSON.parse(payloadJson); }
     catch { throw new Error('密文格式错误'); }
@@ -170,15 +220,11 @@
     }
 
     // 整页替换：解析 admin HTML，把 <html> 元素整个换掉
-    // 关键：先让新文档整体 opacity=0，等脚本和样式都就位后再淡入。
-    // 这比遮罩更稳，能避免 macOS/Safari/Chrome 在替换 html 瞬间出现整页跳动。
     const adminHtml = payload.adminHtml;
     const newDoc = new DOMParser().parseFromString(adminHtml, 'text/html');
 
-    // 不再做整页淡入动画：动画本身会被用户感知成"抖动"。
-    // 直接替换，并通过 admin.html 内部禁用首屏动画来保证稳定。
-    newDoc.documentElement.style.background = '#f5f5f5';
-    newDoc.body.style.background = '#f5f5f5';
+    prepareStableFirstPaint(newDoc);
+    await waitForAdminStyles(newDoc);
 
     // 替换 <html> 整体（包括 head 和 body）
     document.documentElement.replaceWith(newDoc.documentElement);
@@ -201,7 +247,11 @@
     const newTitle = document.querySelector('title');
     if (newTitle) document.title = newTitle.textContent;
 
-    // 不做额外动画，避免登录后出现整页抖动。
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('admin-stabilizing');
+      });
+    });
   }
 
   /* ---------- 主流程 ---------- */
@@ -218,7 +268,7 @@
     };
     localStorage.setItem(SESSION_KEY, JSON.stringify(session));
 
-    renderAdmin(plaintext);
+    await renderAdmin(plaintext);
   }
 
   async function tryRestoreSession() {
@@ -236,7 +286,7 @@
         'raw', keyBytes, 'AES-GCM', false, ['decrypt']
       );
       const plaintext = await decryptWithKey(key);
-      renderAdmin(plaintext);
+      await renderAdmin(plaintext);
       return true;
     } catch {
       localStorage.removeItem(SESSION_KEY);
@@ -272,6 +322,7 @@
   // 启动：尝试恢复 session（24h 内免输密码）
   (async () => {
     const ok = await tryRestoreSession();
+    document.documentElement.classList.remove('restoring-session');
     if (!ok) pwEl.focus();
   })();
   </script>
