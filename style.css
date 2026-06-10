@@ -11,7 +11,9 @@ body {
   padding: 0;
   /* 完整的现代字体栈 */
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
+  font-size: 17px;
+  line-height: 1.82;
+  letter-spacing: 0.012em;
   background-color: #f5f5f5;
   color: #1a1a1a;
 }
@@ -88,9 +90,9 @@ h2 { font-size: 24px; margin-top: 35px; }
 
 /* --- 5. 正文与链接 --- */
 p {
-  line-height: 1.7;
+  line-height: 1.82;
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   color: #333;
 }
 
@@ -163,6 +165,6 @@ img {
     padding: 25px 18px; /* 减小内边距 */
   }
   
-  h1 { font-size: 26px; }
-  h2 { font-size: 22px; }
+  h1 { font-size: 28px; }
+  h2 { font-size: 24px; }
 }
