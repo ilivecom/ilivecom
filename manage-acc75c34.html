@@ -215,12 +215,16 @@
     catch { throw new Error('密文格式错误'); }
 
     // payload = { token: 'ghp_...', adminHtml: '<!DOCTYPE html>...' }
+    // token 仅保存在当前标签页会话中，关闭标签页后即失效。
     if (payload.token) {
-      localStorage.setItem('hiwd_github_token', payload.token);
+      sessionStorage.setItem('hiwd_github_token', payload.token);
     }
 
     // 整页替换：解析 admin HTML，把 <html> 元素整个换掉
     const adminHtml = payload.adminHtml;
+    if (!adminHtml) {
+      throw new Error('控制台内容缺失');
+    }
     const newDoc = new DOMParser().parseFromString(adminHtml, 'text/html');
 
     prepareStableFirstPaint(newDoc);
