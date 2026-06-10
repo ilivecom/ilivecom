@@ -22,35 +22,33 @@
 
       <p>于是花了一个上午，给自己造了一个。</p>
 
-      <h2>1. 想法很简单，让 Claude 替我去看</h2>
+      <h2>1. 让 Claude 替我去看</h2>
 
-      <p>用 Claude + web_search，每天跑一次，把结果渲染成静态 HTML，推到 GitHub Pages 上。不需要服务器，不需要数据库，也不需要后台——一个 Python 脚本，一个 HTML 模板。</p>
+      <p>思路直接：用 Claude + 联网搜索，每天跑一次，把结果生成静态 HTML，推到 GitHub Pages 上。不需要服务器，不需要数据库——一个 Python 脚本，一个 HTML 模板。</p>
 
-      <p>筛选框架直接用了 Kiara Zhang 的 prompt。信息源分三档：S 级是 OpenAI Blog、Anthropic News、Google DeepMind、Stratechery、Platformer；A 级是 TechCrunch、Bloomberg、机器之心；B 级是 Hacker News 和 Ben's Bites，拿来补漏。只要技术突破、工程深度、战略信号、有分量的观点，营销稿、股价新闻、博主口水战一条都不要。</p>
+      <p>信息源分三档。第一档是 OpenAI Blog、Anthropic News、Google DeepMind、Stratechery、Platformer，最可靠；第二档是 TechCrunch、Bloomberg、机器之心；第三档是 Hacker News 和 Ben's Bites，拿来补漏。筛选标准也很明确：只要技术突破、工程深度、战略信号、有分量的观点，营销稿、股价新闻、博主口水战一条都不要。</p>
 
-      <h2>2. Agentic loop 是关键</h2>
+      <h2>2. 多轮搜索，边找边想</h2>
 
-      <p>Anthropic 的服务端 web_search 工具（web_search_20250305）让 Claude 可以连续搜好几轮，边搜边想，直到 stop_reason 变成 end_turn——不是一次性问答，是真正的 loop。</p>
+      <p>普通问答是一问一答，Claude 搜一次就结束。这里用的是 Anthropic 的联网工具，让 Claude 可以连续搜好几轮——搜完第一轮，判断还缺什么，再搜，直到觉得够了才停。设了 15 轮上限，实测 5-8 轮就结束。</p>
 
-      <p>设了 15 轮上限，实测 5-8 轮就结束。和单次问答相比，内容质量差距很明显。</p>
+      <p>和单次搜索相比，内容质量差距很明显。一次性往往只抓到表层热点；多轮之后，更深的分析和更冷门但重要的内容才会浮出来。</p>
 
-      <h2>3. 页面设计完全抄自 hiwd.com</h2>
+      <h2>3. 设计和主站一套</h2>
 
-      <p>不想让它看起来像另一个东西。直接把主站 CSS 移了过来：背景色、卡片阴影、圆角、accent 色，连标题左侧那条竖线都没变。</p>
+      <p>daily.hiwd.com 是 hiwd 的子站，不想让它看起来像另一个东西。直接用主站的 CSS：背景色、卡片阴影、圆角、accent 色，连标题左侧那条竖线都没变。</p>
 
-      <p>HTML 生成的 prompt 框架也是 Kiara Zhang 的，我只改了页面结构和视觉风格。archive 一并做了：每天一份 docs/archive/YYYY-MM-DD.html，同步更新 index.html，用 archive.json 维护日期索引，底部历史记录自动生成。域名 <a href="https://daily.hiwd.com" target="_blank">daily.hiwd.com</a>，GitHub Pages 直接部署。</p>
+      <p>归档也一并做了：每天一份文件，同步更新首页，底部历史记录自动生成。域名 <a href="https://daily.hiwd.com" target="_blank">daily.hiwd.com</a>，GitHub Pages 部署。</p>
 
       <h2>4. 细节是后来磨出来的</h2>
 
-      <p>Claude 输出的 Markdown 有时格式会乱，比如 <code>**\n内容\n**</code> 这样断开的加粗。在 clean_briefing() 里一条条加正则处理：修复断行的 bold、删孤立分号、合并多余空行。</p>
+      <p>Claude 输出有时格式会乱，比如加粗符号和内容之间多了换行，渲染出来就断掉了。还有一个习惯——有时会在结尾自动加一行「总字数：~850 字 | 符合要求精炼程度」，像是给自己交作业。prompt 里限制了还不够，最后在后处理里加了几条正则兜底，才算稳定下来。</p>
 
-      <p>另一个问题——Claude 有时会在结尾自动加一行「总字数：~850 字 | 符合要求精炼程度」，像是给自己交作业。prompt 里限制了，我又补了条明确禁止，clean_briefing() 里再加一条兜底正则 <code>^总字数[：:].+$</code>，双保险。</p>
+      <h2>5. 一觉醒来简报已经在了</h2>
 
-      <h2>5. 以后每天自动跑</h2>
+      <p>脚本大概 200 行 Python。麻烦的不是代码本身，是细节：怎么把筛选逻辑融进自动化流程、模板如何跟主站保持一致、归档怎么做才不重复——这些花的时间比写代码还多。</p>
 
-      <p>脚本大概 200 行 Python。麻烦的地方在细节：怎么把第三方 prompt 融进自动化流程、模板如何跟主站保持一致、archive 怎么做才不重复——这些花的时间比写代码还多。</p>
-
-      <p>GitHub Actions 配好之后，每天早上 CST 8 点自动触发，一觉醒来简报已经在了。</p>
+      <p>GitHub Actions 配好之后，每天早上 8 点自动触发，不用管它。</p>
 
       <p>欢迎访问 <a href="https://daily.hiwd.com" target="_blank">daily.hiwd.com</a></p>
 
