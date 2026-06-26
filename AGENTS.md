@@ -1,0 +1,104 @@
+# AGENTS.md · hiwd.com 项目说明（给 AI agent 看）
+
+> 这份文件是给 Codex / Claude 等 AI agent 看的操作指南。
+> 人类换机器请看 `SETUP.md`（不在仓库里）。
+
+## 这是什么
+
+- **hiwd.com** 是一个纯静态 HTML 博客，托管在 GitHub Pages。
+- 仓库：`ilivecom/ilivecom`，域名由根目录 `CNAME` 指定。
+- **没有构建步骤、没有框架、没有依赖**。改完 HTML 文件 `git push`，1–2 分钟后 hiwd.com 自动更新。
+- 所有页面都是手写 HTML + 一个全站样式表 `style.css`。
+
+## 目录与分类约定
+
+| 位置 | 用途 | 标题规则 |
+|---|---|---|
+| `andrew/` | Andrew 的**原创**文章 | 正文用 `<h1>` 开头 |
+| `notes/` | **转载 / 读书笔记 / 分享** | 正文用 `<h2>` 开头（**不要 h1**） |
+| 根目录 | 长文 / 特殊页面 | 视情况，一般 `<h1>` |
+
+- 文件名用**英文小写 + 连字符**，例如 `andrew/my-new-post.html`。
+- `index.html`（各目录都有）、`sitemap.html`、`404.html`、`andrew.html`、`footer.html`、`style.css`、`admin.html` 是**结构性文件**，不是文章，新增文章时不要改它们（`sitemap.html` 除外，见下）。
+
+## 发布一篇新文章的完整步骤
+
+1. **创建文章 HTML 文件**，放进 `andrew/` 或 `notes/`（按上表选分类），用下面的模板。
+2. **更新 `sitemap.html`**：在对应分类的 `<ul class="article-list">` 里加一行链接。
+   - 原创放「个人观点」那个列表，转载放「个人分享」那个列表。
+   - 新文章习惯加在列表**靠前**位置。
+3. **`git add` + `commit` + `push`**。完成。
+
+> ⚠️ 只创建文件却忘了更新 `sitemap.html`，文章就没有入口、读者找不到。两步都要做。
+
+## 文章模板
+
+### 原创文章（放 `andrew/`，带 h1）
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>文章标题 - hiwd</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+
+    <meta property="og:title" content="文章标题">
+    <meta property="og:description" content="一句话摘要">
+    <meta property="og:image" content="https://hiwd.com/img/andrew.jpeg">
+    <meta property="og:url" content="https://hiwd.com/andrew/文件名.html">
+  </head>
+  <body>
+    <a href="https://hiwd.com/" id="logo"></a>
+
+    <div id="content">
+      <h1>文章标题</h1>
+
+      <p>第一段……</p>
+      <p>第二段……</p>
+
+      <p>Andrew, June 2026</p>
+
+      <p><a href="../index.html">← 返回首页</a></p>
+    </div>
+
+    <script>
+    fetch('/footer.html')
+      .then(response => response.text())
+      .then(data => document.body.insertAdjacentHTML('beforeend', data));
+    </script>
+  </body>
+</html>
+```
+
+### 转载 / 笔记（放 `notes/`，从 h2 开始，无 h1）
+
+和上面**几乎一样**，区别只有两点：
+- 正文第一个标题用 `<h2>` 而不是 `<h1>`。
+- 注明出处（在结尾加一句来源说明）。
+
+其余（`../style.css`、logo、`#content`、footer 脚本、返回首页链接）都保持一致。
+
+## 路径规则（容易错，注意）
+
+- **子目录**（`andrew/`、`notes/`）里的文章：样式表用 `href="../style.css"`，返回首页用 `../index.html`。
+- **根目录**的页面：样式表用 `href="style.css"`，返回首页用 `index.html`。
+- `og:url` 永远是完整线上地址 `https://hiwd.com/路径/文件名.html`。
+- 页脚由每篇文章末尾那段 `fetch('/footer.html')` 脚本动态加载，**不要把页脚内容写死进文章**，照抄那段脚本即可。
+
+## 不要碰 / 不要做的事
+
+- 不要新建任何"管理后台""登录页""加密控制台"类文件——历史上有过，已废弃删除。发布只走 git。
+- 不要把 GitHub token、密码等机密写进任何文件。仓库是公开的。
+- `admin.html` 是一个**本地用的图形化编辑器**（在浏览器里写文章、调 GitHub API 发布），agent 一般用不到它，直接改文件更高效。不要删它，但也不依赖它。
+- 不要引入任何外部 JS/CSS 依赖或构建工具，保持纯静态。
+
+## 验证（可选）
+
+本地预览：
+```bash
+python3 -m http.server 8000
+# 浏览器开 http://localhost:8000/
+```
+agent 环境下一般不需要预览，确认 HTML 结构正确即可 push。
