@@ -1,0 +1,27 @@
+name: Auto-merge Codex PRs
+
+# 只自动合并由 Codex 云端任务创建的、带 "codex" 标签的 PR。
+# 普通 PR（手动开的、没有 codex 标签的）不受影响，仍需手动合并。
+on:
+  pull_request:
+    types: [opened, reopened, labeled, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    # 仅当 PR 带有 "codex" 标签、且目标分支是 main 时才运行
+    if: contains(github.event.pull_request.labels.*.name, 'codex') && github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge the Codex PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          echo "Auto-merging Codex PR: $PR_URL"
+          # --squash 把分支上的多个提交压成一条干净记录合进 main
+          # --delete-branch 合并后自动删除来源分支，保持仓库整洁
+          gh pr merge "$PR_URL" --squash --delete-branch --admin
