@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>测试 Codex 发布流程 - hiwd</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+
+    <meta property="og:title" content="测试 Codex 发布流程">
+    <meta property="og:description" content="用于验证 Codex 发布流程的示意文章。">
+    <meta property="og:image" content="https://hiwd.com/img/andrew.jpeg">
+    <meta property="og:url" content="https://hiwd.com/notes/test-codex.html">
+  </head>
+  <body>
+    <a href="https://hiwd.com/" id="logo"></a>
+
+    <div id="content">
+      <h2>测试 Codex 发布流程</h2>
+
+      <p>这是一段用于测试 Codex 发布流程的示意文字。它没有特别的主题，只是确认新建页面、填写标题和加载全站样式这些基础步骤都能正常完成。</p>
+      <p>这是第二段示意文字，用来检查文章在列表入口中是否能够被读者发现。完成后，网站地图会新增一条链接，方便从首页继续访问这篇测试文章。</p>
+
+      <p>来源：Codex 发布流程测试。</p>
+
+      <p><a href="../index.html">← 返回首页</a></p>
+    </div>
+
+    <script>
+    fetch('/footer.html')
+      .then(response => response.text())
+      .then(data => document.body.insertAdjacentHTML('beforeend', data));
+    </script>
+  </body>
+</html>
