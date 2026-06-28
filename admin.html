@@ -280,7 +280,7 @@
       font-size: 12px; 
     }
 
-    /* Sitemap 关联生成卡片 */
+    /* Words 关联生成卡片 */
     .success-card {
       background: #fffdf5;
       border: 1px solid #f7e6a1;
@@ -656,11 +656,11 @@
               </ul>
             </div>
 
-            <div class="sidebar-card success-card" id="sitemap-snippet" style="display:none;">
-              <h3>📌 Sitemap 关联代码行</h3>
-              <p class="hint-inline">请将此行复制到 <code>sitemap.html</code> 列表中：</p>
-              <code id="sitemap-line"></code>
-              <button type="button" class="btn btn-block btn-sm" id="btn-copy-sitemap">📋 复制这一行</button>
+            <div class="sidebar-card success-card" id="words-snippet" style="display:none;">
+              <h3>📌 Words 关联代码行</h3>
+              <p class="hint-inline">请将此行复制到 <code>words.html</code> 列表中：</p>
+              <code id="words-line"></code>
+              <button type="button" class="btn btn-block btn-sm" id="btn-copy-words">📋 复制这一行</button>
             </div>
           </div>
         </div>
@@ -696,7 +696,7 @@
             <button type="button" id="mode-raw" class="mode-btn">&lt;/&gt; 源码模式</button>
           </div>
           <p id="mode-hint">
-            表单模式：用 Markdown 编辑文章正文，适合普通文章。源码模式：直接编辑完整 HTML，适合 index/sitemap/404 等页面。
+            表单模式：用 Markdown 编辑文章正文，适合普通文章。源码模式：直接编辑完整 HTML，适合 index/words/404 等页面。
           </p>
         </div>
 
@@ -1007,13 +1007,13 @@ async function commitToGithub({ token, repo, path, content, message }) {
   return await putRes.json();
 }
 
-// 自动解析与同步网站地图 sitemap.html
-async function updateSitemapContent({ token, repo, title, folder, slug }) {
-  const sitemapPath = 'sitemap.html';
+// 自动解析与同步文章平台 words.html
+async function updateWordsContent({ token, repo, title, folder, slug }) {
+  const wordsPath = 'words.html';
   const relativePath = (folder ? folder + '/' : '') + slug + '.html';
   
-  // 1. 获取已存在的 sitemap.html 内容与 sha
-  const url = `https://api.github.com/repos/${repo}/contents/${sitemapPath}`;
+  // 1. 获取已存在的 words.html 内容与 sha
+  const url = `https://api.github.com/repos/${repo}/contents/${wordsPath}`;
   const headers = {
     'Authorization': `token ${token}`,
     'Accept': 'application/vnd.github.v3+json',
@@ -1022,11 +1022,11 @@ async function updateSitemapContent({ token, repo, title, folder, slug }) {
 
   const getRes = await fetch(url, { headers });
   if (!getRes.ok) {
-    throw new Error(`无法获取 sitemap.html (${getRes.status})，请确保该文件已存在于 GitHub 仓库中。`);
+    throw new Error(`无法获取 words.html (${getRes.status})，请确保该文件已存在于 GitHub 仓库中。`);
   }
-  const sitemapData = await getRes.json();
-  const rawContent = safeAtob(sitemapData.content.replace(/\s/g, ''));
-  const sha = sitemapData.sha;
+  const wordsData = await getRes.json();
+  const rawContent = safeAtob(wordsData.content.replace(/\s/g, ''));
+  const sha = wordsData.sha;
 
   // 2. 用 DOMParser 解析为 DOM 树
   const parser = new DOMParser();
@@ -1044,7 +1044,7 @@ async function updateSitemapContent({ token, repo, title, folder, slug }) {
   }
 
   if (!targetHeader) {
-    throw new Error(`在 sitemap.html 中未找到包含 "${categoryText}" 的 <h2> 标题`);
+    throw new Error(`在 words.html 中未找到包含 "${categoryText}" 的 <h2> 标题`);
   }
 
   // 找到紧跟在 <h2> 后的 ul.article-list
@@ -1059,7 +1059,7 @@ async function updateSitemapContent({ token, repo, title, folder, slug }) {
   }
 
   if (!targetUl) {
-    throw new Error(`在 sitemap.html 的 "${categoryText}" 标题后未找到 ul.article-list`);
+    throw new Error(`在 words.html 的 "${categoryText}" 标题后未找到 ul.article-list`);
   }
 
   // 4. 增量更新或置顶插入
@@ -1096,7 +1096,7 @@ async function updateSitemapContent({ token, repo, title, folder, slug }) {
   
   // 提交更新到 GitHub
   const body = {
-    message: `Auto-update sitemap.html with ${title}`,
+    message: `Auto-update words.html with ${title}`,
     content: safeBtoa(finalHtml),
     sha: sha
   };
@@ -1109,7 +1109,7 @@ async function updateSitemapContent({ token, repo, title, folder, slug }) {
 
   if (!putRes.ok) {
     const errData = await putRes.json().catch(() => ({}));
-    throw new Error(`更新 sitemap.html 失败: ${errData.message || putRes.status}`);
+    throw new Error(`更新 words.html 失败: ${errData.message || putRes.status}`);
   }
 }
 
@@ -1409,8 +1409,8 @@ async function publishArticleNew() {
       message: `Publish article: ${data.title}`
     });
 
-    toast('正在自动更新并同步 sitemap.html...');
-    await updateSitemapContent({
+    toast('正在自动更新并同步 words.html...');
+    await updateWordsContent({
       token,
       repo,
       title: data.title,
@@ -1418,13 +1418,13 @@ async function publishArticleNew() {
       slug: data.slug
     });
 
-    toast('🎉 发布成功且已同步更新网站地图！');
+    toast('🎉 发布成功且已同步更新文章平台！');
     
-    // 生成 sitemap 行展示作为备份
-    const sitemapPath = (data.folder ? data.folder + '/' : '') + data.slug + '.html';
-    const line = `        <li><a href="${sitemapPath}">${escapeHtml(data.title)}</a></li>`;
-    document.getElementById('sitemap-line').textContent = line;
-    document.getElementById('sitemap-snippet').style.display = 'block';
+    // 生成 words 行展示作为备份
+    const wordsPath = (data.folder ? data.folder + '/' : '') + data.slug + '.html';
+    const line = `        <li><a href="${wordsPath}">${escapeHtml(data.title)}</a></li>`;
+    document.getElementById('words-line').textContent = line;
+    document.getElementById('words-snippet').style.display = 'block';
 
   } catch (e) {
     alert('❌ 发布失败: ' + e.message);
@@ -1463,8 +1463,8 @@ async function publishArticleEdit() {
       message: `Update article: ${data.title}`
     });
 
-    toast('正在自动更新并同步 sitemap.html...');
-    await updateSitemapContent({
+    toast('正在自动更新并同步 words.html...');
+    await updateWordsContent({
       token,
       repo,
       title: data.title,
@@ -1472,7 +1472,7 @@ async function publishArticleEdit() {
       slug: data.slug
     });
 
-    toast('🎉 更新发布成功且已同步网站地图！');
+    toast('🎉 更新发布成功且已同步文章平台！');
   } catch (e) {
     alert('❌ 发布失败: ' + e.message);
     toast('❌ 发布失败，请检查配置或网络！');
@@ -1511,14 +1511,14 @@ async function publishArticleRaw() {
       message: `Publish raw page: ${slug}.html`
     });
 
-    // 如果文件名是 sitemap.html，就不需要再次同步 sitemap，防止死循环
-    if (slug.toLowerCase() !== 'sitemap') {
+    // 如果文件名是 words.html，就不需要再次同步 words，防止死循环
+    if (slug.toLowerCase() !== 'words') {
       const doc = new DOMParser().parseFromString(source, 'text/html');
       const titleEl = doc.querySelector('title') || doc.querySelector('h1');
       const title = titleEl ? titleEl.textContent.trim() : slug;
       
-      toast('正在自动更新并同步 sitemap.html...');
-      await updateSitemapContent({
+      toast('正在自动更新并同步 words.html...');
+      await updateWordsContent({
         token,
         repo,
         title,
@@ -1527,7 +1527,7 @@ async function publishArticleRaw() {
       });
     }
 
-    toast('🎉 源码页面发布成功且已更新网站地图！');
+    toast('🎉 源码页面发布成功且已更新文章平台！');
   } catch (e) {
     alert('❌ 发布失败: ' + e.message);
     toast('❌ 发布失败，请检查配置或网络！');
@@ -1555,11 +1555,11 @@ document.getElementById('btn-generate').addEventListener('click', () => {
   const html = buildHtml(data);
   download(`${data.slug}.html`, html);
 
-  // 生成 sitemap 行
+  // 生成 words 行
   const path = (data.folder ? data.folder + '/' : '') + data.slug + '.html';
   const line = `        <li><a href="${path}">${escapeHtml(data.title)}</a></li>`;
-  document.getElementById('sitemap-line').textContent = line;
-  document.getElementById('sitemap-snippet').style.display = 'block';
+  document.getElementById('words-line').textContent = line;
+  document.getElementById('words-snippet').style.display = 'block';
 
   const placeText = data.folder ? `请将下载的文件放进 ${data.folder}/ 目录` : '请将下载的文件放进网站根目录';
   toast('✅ 已下载！' + placeText);
@@ -1579,11 +1579,11 @@ document.getElementById('btn-clear').addEventListener('click', () => {
   if (!confirm('确定清空表单？')) return;
   formNew.reset();
   document.getElementById('preview-new').style.display = 'none';
-  document.getElementById('sitemap-snippet').style.display = 'none';
+  document.getElementById('words-snippet').style.display = 'none';
 });
 
-document.getElementById('btn-copy-sitemap').addEventListener('click', () => {
-  const txt = document.getElementById('sitemap-line').textContent;
+document.getElementById('btn-copy-words').addEventListener('click', () => {
+  const txt = document.getElementById('words-line').textContent;
   navigator.clipboard.writeText(txt).then(()=>toast('已复制到剪贴板'));
 });
 
@@ -1778,7 +1778,7 @@ document.getElementById('mode-raw').addEventListener('click', () => {
  * 解析 HTML 填到表单。
  * 返回 true 表示是普通文章（结构能被表单表达），false 表示需要源码模式。
  */
-const RAW_MODE_FILES = ['index.html', 'sitemap.html', '404.html', 'andrew.html', 'footer.html'];
+const RAW_MODE_FILES = ['index.html', 'words.html', '404.html', 'andrew.html', 'footer.html'];
 
 function fillEditForm(html, file) {
   const doc = new DOMParser().parseFromString(html, 'text/html');

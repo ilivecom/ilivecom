@@ -113,7 +113,7 @@ img {
   box-shadow: none; /* ✅ 这里的 none 确保了没有横线 */
 }
 
-/* --- 7. Sitemap 列表样式 --- */
+/* --- 7. Words 列表样式 --- */
 .article-list { list-style: none; padding: 0; margin: 0; }
 .article-list li { border-bottom: 1px solid #eee; }
 .article-list li:has(img) { border-bottom: none; } /* 双重保险：有图不显示底线 */
