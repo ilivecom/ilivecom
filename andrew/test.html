@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>test - hiwd</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+
+    <meta property="og:title" content="test">
+    <meta property="og:description" content="一篇用于测试 words.html 自动入口的短文。">
+    <meta property="og:image" content="https://hiwd.com/img/andrew.jpeg">
+    <meta property="og:url" content="https://hiwd.com/andrew/test.html">
+  </head>
+  <body>
+    <a href="https://hiwd.com/" id="logo"></a>
+
+    <div id="content">
+      <h1>test</h1>
+
+      <p>这是一篇用来测试发布流程的小文章。今天我只想确认新文章创建以后，会不会按预期出现在 words.html 里。内容本身不重要，重要的是把链接、分类、模板和页脚都走一遍。等这次测试通过，以后发文章就更放心，也能少做很多重复检查。</p>
+
+      <p>Andrew, June 2026</p>
+
+      <p><a href="../index.html">← 返回首页</a></p>
+    </div>
+
+    <script>
+    fetch('/footer.html')
+      .then(response => response.text())
+      .then(data => document.body.insertAdjacentHTML('beforeend', data));
+    </script>
+  </body>
+</html>
